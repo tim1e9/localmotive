@@ -1,0 +1,68 @@
+{
+  "settings": {
+    "adminPathPrefix": "_admin",
+    "containerNamePrefix": "qwerty",
+    "apiRootPath": "/api",
+    "baseImage": "public.ecr.aws/lambda/nodejs:latest",
+    "zipRootDir": "/Users/tdc/dev/docker/zips/",
+    "zipRunDir": "/Users/tdc/dev/docker/zipruns"
+  },
+  "endpoints": [
+    {
+      "path": "/products",
+      "method": "GET",
+      "functionName": "getProducts"
+    },
+    {
+      "path": "/products/{productId}/price",
+      "method": "GET",
+      "functionName": "getProductPrice"
+    },
+    {
+      "path": "/products/{productId}",
+      "method": "PUT",
+      "functionName": "setProductDetails"
+    },
+    {
+      "path": "/products",
+      "method": "POST",
+      "functionName": "addProductToStore"
+    },
+    {
+      "path": "/products/{productId}",
+      "method": "DELETE",
+      "functionName": "deleteProduct"
+    }
+  ],
+  "functions": {
+    "getProducts": {
+      "type": "zip",
+      "file": "getProducts.zip",
+      "entryPoint": "index.handler",
+      "envVars": {}
+    },
+    "getProductPrice": {
+      "type": "proxy",
+      "url": "https://www.google.com/",
+      "method": "GET"
+    },
+    "setProductDetails": {
+      "type": "filesystem",
+      "rootDir": "/Users/tdc/dev/foo/bar",
+      "entryPoint": "index.handler",
+      "envVars": {}
+    },
+    "addProductToStore": {
+      "type": "image",
+      "envVars": {},
+      "imageName": "add-products:latest",
+      "entryPoint": "index.handler"
+    },
+    "deleteProduct": {
+      "type": "zip",
+      "file": "DeleteProduct.zip",
+      "entryPoint": "index.handler",
+      "envVars": {}
+    }
+  }
+}
