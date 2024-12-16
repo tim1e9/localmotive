@@ -4,8 +4,8 @@
     "containerNamePrefix": "qwerty",
     "apiRootPath": "/api",
     "baseImage": "public.ecr.aws/lambda/nodejs:latest",
-    "zipRootDir": "/Users/tdc/dev/docker/zips/",
-    "zipRunDir": "/Users/tdc/dev/docker/zipruns"
+    "zipSourceDir": "/Users/tdc/dev/docker/zips/",
+    "zipTargetDir": "/Users/tdc/dev/docker/zipruns"
   },
   "endpoints": [
     {

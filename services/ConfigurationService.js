@@ -25,7 +25,7 @@ const pathsAndMethodsMatch = (endpoint, targetPath, targetMethod) => {
     return rc && (endpoint.method == targetMethod);
 };
 
-const getFunctionFromPathAndMethod = (path, method) => {
+const getFunctionDetailsFromPathAndMethod = (path, method) => {
     try {
         // Iterate across all endpoints to find a match
         const curEndpoint = config.endpoints.find( (endpoint) =>
@@ -39,4 +39,4 @@ const getFunctionFromPathAndMethod = (path, method) => {
     }
 }
 
-export { loadConfig, getFunctionFromPathAndMethod }
+export { loadConfig, getFunctionDetailsFromPathAndMethod }

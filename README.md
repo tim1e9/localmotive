@@ -50,3 +50,17 @@ Pretty dang simple - just pass it on through
 
 ## Other
 dunno
+
+get request. One of:
+ - proxy
+ - zip
+ - filesystem
+ - container
+
+Proxy is simple
+The rest:
+ - is container running? proxy request
+ - not running?
+    Filesystem - map filesystem to container and go
+    Zip - extract to filesystem; map filesystem to container and go
+    Container - pull container; no map, and go

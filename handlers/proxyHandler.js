@@ -1,6 +1,32 @@
 
+const handleContainerRequest = async (host, port, optionalEndpoint, payload) => {
+  try {
+    const endpoint = optionalEndpoint ? optionalEndpoint : '/2015-03-31/functions/function/invocations';
+    const url = `http://${host}:${port}${endpoint}`;
+    const parms = {
+      // headers: req.headers,
+      method: 'POST',
+      body: JSON.stringify(payload)
+    };
+    const proxyResponse = await fetch(url, parms);
+    const proxyContent = await proxyResponse.text();
+    return {
+      status: proxyResponse.status,
+      result: proxyContent
+    }
+  } catch(exc) {
+    const msg = `Exception when invoking function: ${exc.message}`;
+    console.error(msg);
+    return {
+      status: 500,
+      result: msg
+    }
+  }
+};
+
+
 // Make a passthru (proxy) request to something else
-const handleRequest = async (req, config, _settings) => {
+const handleExternalRequest = async (req, config, _settings) => {
   try {
     const url = config.url;
     const parms = {
@@ -27,4 +53,4 @@ const handleRequest = async (req, config, _settings) => {
 
 };
 
-export { handleRequest }
+export { handleContainerRequest, handleExternalRequest }

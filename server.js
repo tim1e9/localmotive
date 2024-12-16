@@ -1,61 +1,78 @@
 import 'dotenv/config'
 import express from 'express';
 
-import { init as initContainerService} from './services/ContainerService.js';
-import { handleRequest as handleProxyRequest } from './handlers/proxyHandler.js';
-import { handleRequest as handleZipRequest  } from './handlers/zipHandler.js';
-import { loadConfig, getFunctionFromPathAndMethod } from './services/ConfigurationService.js';
+import * as containerService from './services/ContainerService.js';
+import { extractZip } from './services/ZipService.js';
+import { handleContainerRequest, handleExternalRequest } from './handlers/proxyHandler.js';
+import { loadConfig, getFunctionDetailsFromPathAndMethod } from './services/ConfigurationService.js';
 const app = express();
 app.use(express.json());
 
 const configFile = process.env.CONFIG_FILE;
 if (!configFile) {
-    throw new Error(`Missing configuration file: (Set CONFIG_FILE in the environment)`);
+  throw new Error(`Missing configuration file: (Set CONFIG_FILE in the environment)`);
 }
 const config = await loadConfig(configFile)
-const ADMIN_PATH= config?.settings?.adminPathPrefix ? config.settings.adminPathPrefix : '_admin';
+const ADMIN_PATH = config?.settings?.adminPathPrefix ? config.settings.adminPathPrefix : '_admin';
 
-await initContainerService(config.settings);
+await containerService.init(config.settings);
 
 app.all('/*', async (req, res) => {
   // TODO: Check if this is an admin function. If so, forward to the admin module
-  
+
   // Check to see if anything matches the path
-  const targetFunction = getFunctionFromPathAndMethod(req.path, req.method);
+  const targetFunction = getFunctionDetailsFromPathAndMethod(req.path, req.method);
   if (!targetFunction) {
-    res.status(400).send("Requested target function not found");
+    res.status(404).send("Requested target function not found");
     return;
   }
 
   // targetFunction will be the function to execute. The action depends on the type
   if (targetFunction.type == 'proxy') {
     try {
-      const {status, result} = await handleProxyRequest(req, targetFunction, config.settings);
+      const { status, result } = await handleExternalRequest(req, targetFunction, config.settings);
       res.status(status).send(result);
-    } catch( exc ) {
+      return;
+    } catch (exc) {
       const msg = `Exception proxying the request: ${exc.message}`;
       console.log(msg);
-      res.status(200).json({message: msg});
+      res.status(200).json({ message: msg });
       return;
     }
-  } else if (targetFunction.type == 'zip') {
-    try {
-      const {status, result} = await handleZipRequest(req, targetFunction, config.settings);
-      const jsonResult = JSON.parse(result);
-      jsonResult.body = JSON.parse(jsonResult.body);
-      res.status(status).json(jsonResult);
-    } catch( exc ) {
-      const msg = `Exception proxying the request: ${exc.message}`;
-      console.log(msg);
-      res.status(200).json({message: msg});
-      return;
+  }
+
+  try {
+    // Check to see if the container is already running
+    const containerName = config.settings.containerNamePrefix + targetFunction.name;
+    let runningContainer = await containerService.getContainer(containerName);
+
+    if (!runningContainer) {
+      // If this starts from a zip, then unzip the contents
+      let fileMappingSource = null;
+      if (targetFunction.type == 'zip') {
+        fileMappingSource = await extractZip(config.settings.zipSourceDir,
+          targetFunction.file, config.settings.zipTargetDir);
+      } else if (targetFunction.type == 'filesystem') {
+        fileMappingSource = targetFunction.rootDir;
+      }
+      const containerConfig = containerService.getContainerConfig(containerName,
+        config.settings.baseImage, targetFunction.entryPoint,
+        fileMappingSource, await containerService.getAvailablePort());
+      await containerService.launchContainer(containerName, containerConfig);
+      runningContainer = containerService.getContainer(containerName);
     }
-  } else if (targetFunction.type == 'image') {
 
-  } else if (targetFunction.type == 'filesystem') {
+    const { status, result } = await handleContainerRequest('localhost', runningContainer.port, null, {});
+    const jsonResult = JSON.parse(result);
+    jsonResult.body = JSON.parse(jsonResult.body);
+    res.status(status).json(jsonResult);
 
-  } else {
-    res.status(404).send("resource not found");
+
+  } catch (exc) {
+    const msg = `Exception proxying the request: ${exc.message}`;
+    console.log(msg);
+    res.status(200).json({ message: msg });
+    return;
   }
 });
 
@@ -83,7 +100,7 @@ app.all('/*', async (req, res) => {
 //             const c = await destroyContainer(containerDetails);
 //             runningContainers[c.name] = c;
 //             res.send({msg: c});
-    
+
 //         } else {
 //             res.error(`Container with name ${containerName} not found`);
 //         }
