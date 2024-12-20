@@ -1,9 +1,10 @@
 
 // Handle the different types of proxies: Lambda and straight passthru
 
-const proxyLambdaRequest = async (config, payload) => {
+const proxyLambdaRequest = async (targetEndpoint, payload) => {
   try {
-    const {host, externalPort} = config;
+    const externalPort = targetEndpoint.function.externalPort;
+    const host = targetEndpoint.function.host;
     const modifiedHost = host ? host : 'localhost';
     const endpoint = '/2015-03-31/functions/function/invocations';
     const url = `http://${modifiedHost}:${externalPort}${endpoint}`;
@@ -34,12 +35,12 @@ const proxyLambdaRequest = async (config, payload) => {
 
 
 // Make a passthru (proxy) request to something else
-const proxyPassthruRequest = async (req, config, _settings) => {
+const proxyPassthruRequest = async (req, targetEndpoint) => {
   try {
-    const url = config.url;
+    const url = targetEndpoint.function.url;
     const parms = {
       headers: req.headers,
-      method: config.method
+      method: targetEndpoint.function.method
     };
     if (req.method == 'POST' || req.method == 'PUT') {
       parms[body] = req.body;

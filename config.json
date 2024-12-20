@@ -10,89 +10,73 @@
     {
       "path": "/products",
       "method": "GET",
-      "functionName": "getProducts"
+      "function": {
+        "name": "getProducts",
+        "type": "zip",
+        "file": "getProducts.zip",
+        "entryPoint": "index.handler",
+        "envVars": {},
+        "internalPort": 8080
+      } 
     },
     {
       "path": "/hotdogs",
       "method": "GET",
-      "functionName": "getHotdogs"
+      "function": {
+        "name": "getHotdogs",
+        "type": "lambda",
+        "host": "localhost",
+        "externalPort": 9000,
+        "internalPort": 8080  
+      } 
     },
     {
       "path": "/hotdogfiles",
       "method": "GET",
-      "functionName": "getHotdogFiles"
+      "function": {
+        "name": "getHotdogFiles",
+        "type": "filesystem",
+        "rootDir": "/Users/tdc/dev/docker/sample-lambdas/hotdogs",
+        "entryPoint": "index.handler",
+        "envVars": {},
+        "externalPort": 9000,
+        "internalPort": 8080  
+      }
     },
     {
       "path": "/products/{productId}/price",
       "method": "GET",
-      "functionName": "getProductPrice"
-    },
-    {
-      "path": "/products/{productId}",
-      "method": "PUT",
-      "functionName": "setProductDetails"
+      "function": {
+        "name": "getProductPrice",
+        "type": "passthru",
+        "url": "https://www.google.com/",
+        "method": "GET"  
+      }
     },
     {
       "path": "/echo",
       "method": "GET",
-      "functionName": "echo"
+      "function": {
+        "name": "echo",
+        "type": "image",
+        "envVars": {},
+        "imageName": "echo-lambda-image:latest",
+        "externalPort": 9000,
+        "internalPort": 8080  
+      }
     },
     {
       "path": "/products/{productId}",
       "method": "DELETE",
-      "functionName": "deleteProduct"
+      "function": {
+        "name": "deleteProduct",
+        "type": "zip",
+        "file": "DeleteProduct.zip",
+        "entryPoint": "index.handler",
+        "envVars": {},
+        "externalPort": 9000,
+        "internalPort": 8080
+      }
     }
-  ],
-  "functions": {
-    "getProducts": {
-      "type": "zip",
-      "file": "getProducts.zip",
-      "entryPoint": "index.handler",
-      "envVars": {},
-      "externalPort": 9000,
-      "internalPort": 8080
-    },
-    "getHotdogs": {
-      "type": "lambda",
-      "host": "localhost",
-      "externalPort": 9000,
-      "internalPort": 8080
-    },
-    "getProductPrice": {
-      "type": "passthru",
-      "url": "https://www.google.com/",
-      "method": "GET"
-    },
-    "getHotdogFiles": {
-      "type": "filesystem",
-      "rootDir": "/Users/tdc/dev/docker/sample-lambdas/hotdogs",
-      "entryPoint": "index.handler",
-      "envVars": {},
-      "externalPort": 9000,
-      "internalPort": 8080
-    },
-    "setProductDetails": {
-      "type": "filesystem",
-      "rootDir": "/Users/tdc/dev/foo/bar",
-      "entryPoint": "index.handler",
-      "envVars": {},
-      "externalPort": 9000,
-      "internalPort": 8080
-    },
-    "echo": {
-      "type": "image",
-      "envVars": {},
-      "imageName": "echo-lambda-image:latest",
-      "externalPort": 9000,
-      "internalPort": 8080
-    },
-    "deleteProduct": {
-      "type": "zip",
-      "file": "DeleteProduct.zip",
-      "entryPoint": "index.handler",
-      "envVars": {},
-      "externalPort": 9000,
-      "internalPort": 8080
-    }
-  }
+  ]
 }

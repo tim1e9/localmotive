@@ -2,9 +2,9 @@ import { proxyLambdaRequest, proxyPassthruRequest } from "../services/ProxyServi
 import * as containerService from "../services/ContainerService.js"
 import { extractZip } from '../services/ZipService.js';
 
-const handlePassthruRequest = async (req, res, targetFunction, config) => {
+const handlePassthruRequest = async (req, res, targetEndpoint) => {
   try {
-    const { status, result } = await proxyPassthruRequest(req, targetFunction, config.settings);
+    const { status, result } = await proxyPassthruRequest(req, targetEndpoint);
     res.status(status).send(result);
   } catch (exc) {
     const msg = `Exception proxying the request: ${exc.message}`;
@@ -13,11 +13,9 @@ const handlePassthruRequest = async (req, res, targetFunction, config) => {
   }
 };
 
-const handleUnmanagedLambdaRequest = async (req, res, targetFunction, config, lambdaPayload) => {
+const handleUnmanagedLambdaRequest = async (req, res, targetEndpoint, lambdaPayload) => {
   try {
-    config.externalPort = targetFunction.externalPort;
-    config.host = targetFunction.host;
-    const { status, result } = await proxyLambdaRequest(config, lambdaPayload);
+    const { status, result } = await proxyLambdaRequest(targetEndpoint, lambdaPayload);
     res.status(status).send(result);
   } catch (exc) {
     const msg = `Exception proxying the Lambda request: ${exc.message}`;
@@ -26,39 +24,38 @@ const handleUnmanagedLambdaRequest = async (req, res, targetFunction, config, la
   }
 }
 
-const handleManagedLambdaRequest = async (req, res, targetFunction, config, lambdaPayload) => {
+const handleManagedLambdaRequest = async (req, res, targetEndpoint, lambdaPayload) => {
   try {
     // Check to see if the container is already running
-    const containerName = targetFunction.name;
+    const containerName = targetEndpoint.function.name;
     let runningContainer = await containerService.getContainer(containerName);
 
     if (!runningContainer) {
       // If this starts from a zip, then unzip the contents
       let fileMappingSource = null;
-      if (targetFunction.type == 'zip') {
+      if (targetEndpoint.function.type == 'zip') {
         fileMappingSource = await extractZip(config.settings.zipSourceDir,
-          targetFunction.file, config.settings.zipTargetDir);
-      } else if (targetFunction.type == 'filesystem') {
-        fileMappingSource = targetFunction.rootDir;
+          targetEndpoint.function.file, config.settings.zipTargetDir);
+      } else if (targetEndpoint.function.type == 'filesystem') {
+        fileMappingSource = targetEndpoint.function.rootDir;
       } else {
         // This is for containers that run from an image exclusively
         fileMappingSource = null;
       }
       const containerConfig = containerService.getContainerConfig(
         containerName,
-        targetFunction.imageName ? targetFunction.imageName : config.settings.baseImage,
-        targetFunction.entryPoint,
+        targetEndpoint.function.imageName ? targetEndpoint.function.imageName : config.settings.baseImage,
+        targetEndpoint.function.entryPoint,
         fileMappingSource,
         await containerService.getAvailablePort(),
-        targetFunction.internalPort,
+        targetEndpoint.function.internalPort,
         null);
 
       await containerService.launchContainer(containerName, containerConfig);
       runningContainer = await containerService.getContainer(containerName);
     }
-    config.externalPort = runningContainer.externalPort;
-    config.host = targetFunction.host;
-    const { status, result } = await proxyLambdaRequest(config, lambdaPayload);
+    targetEndpoint.function.externalPort = runningContainer.externalPort;
+    const { status, result } = await proxyLambdaRequest(targetEndpoint, lambdaPayload);
     const jsonResult = JSON.parse(result);
     res.status(status).json(jsonResult);
   } catch (exc) {

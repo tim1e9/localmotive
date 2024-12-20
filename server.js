@@ -27,14 +27,14 @@ app.all('/*', async (req, res) => {
   }
 
   // Check to see if anything matches the path
-  const targetFunction = getFunctionDetailsFromPathAndMethod(req.path, req.method);
-  if (!targetFunction) {
+  const targetEndpoint = getFunctionDetailsFromPathAndMethod(req.path, req.method);
+  if (!targetEndpoint) {
     res.status(404).send("Requested target function not found");
     return;
   }
 
-  if (targetFunction.type == 'passthru') {
-    await handlePassthruRequest(req, res, targetFunction, config);
+  if (targetEndpoint.function.type == 'passthru') {
+    await handlePassthruRequest(req, res, targetEndpoint);
     return;
   }
 
@@ -42,11 +42,11 @@ app.all('/*', async (req, res) => {
 
   // A value of 'lambda' represents existing (nonmanaged) lambda functions. No need
   // to start up a container or anything else; just make the call and return the results
-  if (targetFunction.type == 'lambda') {
-    await handleUnmanagedLambdaRequest(req, res, targetFunction, config, lambdaPayload)
+  if (targetEndpoint.function.type == 'lambda') {
+    await handleUnmanagedLambdaRequest(req, res, targetEndpoint, lambdaPayload)
   } else {
     // The remaining types all run from within a container.
-    await handleManagedLambdaRequest(req, res, targetFunction, config, lambdaPayload);
+    await handleManagedLambdaRequest(req, res, targetEndpoint, lambdaPayload);
   }
 
 });
