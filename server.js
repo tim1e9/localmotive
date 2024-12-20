@@ -46,20 +46,10 @@ app.all('/*', async (req, res) => {
     await handleUnmanagedLambdaRequest(req, res, targetEndpoint, lambdaPayload)
   } else {
     // The remaining types all run from within a container.
-    await handleManagedLambdaRequest(req, res, targetEndpoint, lambdaPayload);
+    await handleManagedLambdaRequest(req, res, targetEndpoint, lambdaPayload, config.settings);
   }
 
 });
-
-// app.get(`/${ADMIN_PATH}/containers/list`, async (req, res) => {
-//     try {
-//         const x = await getContainer("");
-//         res.send({msg: x});
-//     } catch(exc) {
-//         console.error(`Exception launching a container: ${exc.message}`);
-//         res.status(400).json({msg: exc.message});
-//     }
-// });
 
 const nodejs_port = process.env.NODEJS_PORT ? process.env.NODEJS_PORT : 3000;
 
