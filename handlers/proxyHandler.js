@@ -1,18 +1,26 @@
 
-const handleContainerRequest = async (host, port, optionalEndpoint, payload) => {
+// Handle the different types of proxies: Lambda and straight passthru
+
+const handleLambdaRequest = async (config, payload) => {
   try {
-    const endpoint = optionalEndpoint ? optionalEndpoint : '/2015-03-31/functions/function/invocations';
-    const url = `http://${host}:${port}${endpoint}`;
+    const {host, externalPort} = config;
+    const modifiedHost = host ? host : 'localhost';
+    const endpoint = '/2015-03-31/functions/function/invocations';
+    const url = `http://${modifiedHost}:${externalPort}${endpoint}`;
     const parms = {
-      // headers: req.headers,
-      method: 'POST',
-      body: JSON.stringify(payload)
+      method: 'POST', // Always POST for a target payload
+      body: payload
     };
-    const proxyResponse = await fetch(url, parms);
-    const proxyContent = await proxyResponse.text();
+    console.log(`Making proxy lambda call to ${url}`);
+    const lambdaResponse = await fetch(url, parms);
+    const lambdaContent = await lambdaResponse.text();
+    // This gets odd
+    const jsonContent = JSON.parse(lambdaContent);
+    const statusCode = jsonContent.statusCode;
+    const bodyContent = jsonContent.body;
     return {
-      status: proxyResponse.status,
-      result: proxyContent
+      status: statusCode,
+      result: bodyContent
     }
   } catch(exc) {
     const msg = `Exception when invoking function: ${exc.message}`;
@@ -26,7 +34,7 @@ const handleContainerRequest = async (host, port, optionalEndpoint, payload) => 
 
 
 // Make a passthru (proxy) request to something else
-const handleExternalRequest = async (req, config, _settings) => {
+const handlePassthruRequest = async (req, config, _settings) => {
   try {
     const url = config.url;
     const parms = {
@@ -36,14 +44,14 @@ const handleExternalRequest = async (req, config, _settings) => {
     if (req.method == 'POST' || req.method == 'PUT') {
       parms[body] = req.body;
     }
-    const proxyResponse = await fetch(url);
+    const passthruResponse = await fetch(url);
 
     return {
-      status: proxyResponse.status,
-      result: await proxyResponse.text()
+      status: passthruResponse.status,
+      result: await passthruResponse.text()
     }
   } catch(exc) {
-    const msg = `Exception when making a proxy call to a function: ${exc.message}`;
+    const msg = `Exception when making a passthru call: ${exc.message}`;
     console.error(msg);
     return {
       status: 500,
@@ -53,4 +61,4 @@ const handleExternalRequest = async (req, config, _settings) => {
 
 };
 
-export { handleContainerRequest, handleExternalRequest }
+export { handleLambdaRequest, handlePassthruRequest }

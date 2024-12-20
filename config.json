@@ -1,8 +1,7 @@
 {
   "settings": {
     "adminPathPrefix": "_admin",
-    "containerNamePrefix": "qwerty",
-    "apiRootPath": "/api",
+    "containerLabelText": "qwerty",
     "baseImage": "public.ecr.aws/lambda/nodejs:latest",
     "zipSourceDir": "/Users/tdc/dev/docker/zips/",
     "zipTargetDir": "/Users/tdc/dev/docker/zipruns"
@@ -12,6 +11,11 @@
       "path": "/products",
       "method": "GET",
       "functionName": "getProducts"
+    },
+    {
+      "path": "/hotdogs",
+      "method": "GET",
+      "functionName": "getHotdogs"
     },
     {
       "path": "/products/{productId}/price",
@@ -24,9 +28,9 @@
       "functionName": "setProductDetails"
     },
     {
-      "path": "/products",
-      "method": "POST",
-      "functionName": "addProductToStore"
+      "path": "/echo",
+      "method": "GET",
+      "functionName": "echo"
     },
     {
       "path": "/products/{productId}",
@@ -39,10 +43,18 @@
       "type": "zip",
       "file": "getProducts.zip",
       "entryPoint": "index.handler",
-      "envVars": {}
+      "envVars": {},
+      "externalPort": 9000,
+      "internalPort": 8080
+    },
+    "getHotdogs": {
+      "type": "lambda",
+      "hostname": "localhost",
+      "externalPort": 9000,
+      "internalPort": 8080
     },
     "getProductPrice": {
-      "type": "proxy",
+      "type": "passthru",
       "url": "https://www.google.com/",
       "method": "GET"
     },
@@ -50,19 +62,24 @@
       "type": "filesystem",
       "rootDir": "/Users/tdc/dev/foo/bar",
       "entryPoint": "index.handler",
-      "envVars": {}
+      "envVars": {},
+      "externalPort": 9000,
+      "internalPort": 8080
     },
-    "addProductToStore": {
+    "echo": {
       "type": "image",
       "envVars": {},
-      "imageName": "add-products:latest",
-      "entryPoint": "index.handler"
+      "imageName": "echo-lambda-image:latest",
+      "externalPort": 9000,
+      "internalPort": 8080
     },
     "deleteProduct": {
       "type": "zip",
       "file": "DeleteProduct.zip",
       "entryPoint": "index.handler",
-      "envVars": {}
+      "envVars": {},
+      "externalPort": 9000,
+      "internalPort": 8080
     }
   }
 }

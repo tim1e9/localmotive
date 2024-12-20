@@ -5,30 +5,7 @@ Be a front-end API which will invoke Lambda functions with the
 appropriate data structures.
 
 ## Sample Schema
-No need to specify query params - just passthru
-Maybe a future inject/remove some headers? (Perhaps even auth)
-```
-[
-{
-  "endpoint": "/api/{alpha}/beta",
-  "verb": "GET"
-  "target": {
-    "targetType": "passthru",
-    "targetURL": "http://someday/some/way",
-  }
-},
-{
-  "endpoint": "/api/{alpha}/gamma",
-  "verb": "GET"
-  "target": {
-    "targetType": "zip",
-    "targetLocation": "~/",
-  }
-}
-]
-
-/api/{alpha}/beta
-```
+See `config.json`
 
 ## How this stuff works
 
@@ -36,20 +13,28 @@ Maybe a future inject/remove some headers? (Perhaps even auth)
 Pretty dang simple - just pass it on through
 - Consider an option to modify headers, the method, and even the payload
 - Timeout may need to be significantly increased
-- Same approach is leveraged for other choices - after the container has been created
 
 ### Zip file
 - Write a lambda and zip it up - just like you're going to upload it in the AWS Console
 - Use the Lambda runtime image as the base image
 - Create the appropriate entries in `config.json`
-- unzip the file into a specific directory
-- Make a proxy call from localmotive to the newly launched docker container
-- TODO: Clean up the container when done
+- When launched:
+  - unzip the file into a specific directory
+  - Make a (Lambda) proxy call from localmotive to the newly launched docker container
+
+### Container Image
+- Write a lambda and make it into a container image
+- Create the appropriate entries in `config.json`
+- When launched:
+  - Create / launch container (with appropriate localmotive tags)
+  - Make a (Lambda) proxy call from localmotive to the newly launched docker container
 
 
-
-## Other
-dunno
+## TODOs
+- Move from unique prefix names to tags
+- Integrated logging
+- Containers
+- Remove zip files after the container is destroyed
 
 get request. One of:
  - proxy

@@ -1,21 +1,18 @@
 import axios from 'axios';
-// import { promises as fs } from 'fs';
-// import path from 'path';
-// import os from 'os';
-// import * as unzipper from 'unzipper';
 
-let containerNamePrefix = "";  // Used to identify running containers owned by this app
+let containerLabelText = "localknowledgerequired";  // Used to identify running containers owned by Localmotive
 
 const DOCKER_SOCKET = process.env.DOCKER_SOCKET ? process.env.DOCKER_SOCKET : '/var/run/docker.sock';
+const DOCKER_API_VERSION = "v1.41";
 
 const dockerDaemon = axios.create({
   socketPath: DOCKER_SOCKET,
-  baseURL: 'http://localhost/v1.41', // Docker API Version
+  baseURL: `http://localhost/${DOCKER_API_VERSION}`,
   timeout: 5000
 });
 
 const init = async (settings) => {
-  containerNamePrefix = settings.containerNamePrefix;
+  containerLabelText = settings.containerLabelText;
 };
 
 const getContainer = async (containerName) => {
@@ -34,8 +31,9 @@ const getAllContainers = async () => {
     const containers = {};
     for (const entry of resp.data) {
       const key = entry.Names[0].substring(1);
-      if (key.startsWith(containerNamePrefix)) {
-        const publicPort = entry.Ports[0].PublicPort;
+      const labels = entry.Labels;
+      if (labels && labels.localmotive && labels.localmotive == containerLabelText) {
+        const externalPort = entry.Ports[0].PublicPort;
         const cur = {
           created: entry.Created,
           id: entry.Id,
@@ -44,7 +42,8 @@ const getAllContainers = async () => {
           mounts: entry.Mounts,
           ports: entry.Ports,
           state: entry.State,
-          port: publicPort
+          externalPort: externalPort,
+          labels: entry.Labels
         };
         containers[key] = cur;
       }
@@ -63,39 +62,43 @@ const getAvailablePort = async () => {
   return Math.floor(Math.random() * (50000 - 10000 + 1)) + 10000;
 }
 
-const getContainerConfig = (containerName, containerImage, entryPoint, localDir, port) => {
+const getContainerConfig = (containerName, containerImage, entryPoint, localDir, externalPort, internalPort, envVars) => {
   // Create the configuration for the container
-  //const containerName = config.settings.containerNamePrefix + config.name;
+
   const containerConfig = {
-    "Image": containerImage, //config.baseImage,
-    "Env": [
-      "foo=bar"
-    ],
-    "Cmd": [entryPoint],
+    "Image": containerImage,
     "name": containerName,
     "Labels": {
-      "localmotive": "active"
+      "localmotive": containerLabelText
     },
-    "ExposedPorts": {
-      "8080/tcp": {}
-    },
+    "ExposedPorts": {},
     "HostConfig": {
       "AutoRemove": true,
-      // "Binds": [
-      //   `${localDir}:/var/task`
-      // ],
-      "PortBindings": {
-        "8080/tcp": [{
-          "HostPort": `${port}`
-        }]
-      }
+      "PortBindings": {}
     }
   };
+
+  // Port goodness
+  containerConfig.ExposedPorts[`${internalPort}/tcp`] = {};
+  containerConfig.HostConfig.PortBindings[`${internalPort}/tcp`] = [{"HostPort": `${externalPort}`}];
+
+  // Optionally add the entrypoint. (Not needed for some images). Format:
+  // "Cmd": [entryPoint],
+  if (entryPoint) {
+    containerConfig.Cmd = [ entryPoint ];
+  }
   // Add a binding to a local directory if it exists
   if (localDir) {
     containerConfig.HostConfig.Binds = [
       `${localDir}:/var/task`
     ]
+  }
+  // Add environment variables if they're present. Format:
+  //"Env": [
+  //  "foo=bar"
+  //],
+  if (envVars) {
+    containerConfig.Env = envVars
   }
   return containerConfig;
 }
@@ -112,7 +115,6 @@ const launchContainer = async (containerName, containerConfig) => {
     return {
       name: containerName,
       containerId: response.data.Id,
-      port: config.targetPort
     }
 
   } catch (exc) {
@@ -127,8 +129,8 @@ const destroyAllContainers = async () => {
     // Key all containers by their name
     const containers = {};
     for (const entry of resp.data) {
-      const key = entry.Names[0].substring(1);
-      if (key.startsWith(containerNamePrefix)) {
+      const labels = entry.Labels;
+      if (labels && labels.localmovie && labels.localmotive == containerLabelText) {
         await destroyContainer(key);
       }
     }
@@ -152,24 +154,5 @@ const destroyContainer = async (containerName) => {
   // }
   // return true;
 };
-
-const launchContainerOld = async () => {
-  try {
-    const containerConfig = {
-      Image: 'alpine',
-      Cmd: ['echo', 'Hello, Docker!'],
-      name: 'my-nodejs-container'
-    };
-
-    const response = await dockerDaemon.post('/containers/create', containerConfig);
-    console.log('Container created:', response.data);
-
-    // Start the container
-    await dockerDaemon.post(`/containers/${response.data.Id}/start`);
-    console.log(`Container started with ID: ${response.data.Id}`);
-  } catch (error) {
-    console.error('Error creating container:', error.message);
-  }
-}
 
 export { init, getAvailablePort, getContainer, getContainerConfig, launchContainer, destroyAllContainers };
