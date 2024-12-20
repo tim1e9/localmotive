@@ -129,8 +129,10 @@ const destroyAllContainers = async () => {
     // Key all containers by their name
     const containers = {};
     for (const entry of resp.data) {
+      const key = entry.Names[0].substring(1);
+
       const labels = entry.Labels;
-      if (labels && labels.localmovie && labels.localmotive == containerLabelText) {
+      if (labels && labels.localmotive && labels.localmotive == containerLabelText) {
         await destroyContainer(key);
       }
     }
@@ -143,7 +145,7 @@ const destroyAllContainers = async () => {
 const destroyContainer = async (containerName) => {
   // Stop the container
   const response = await dockerDaemon.post(`/containers/${containerName}/stop`, {});
-  console.log('Container destroyed:', response.data);
+  console.log(`Container destroyed: ${containerName}`, response.data);
 
   // TODO: Remove the unzipped files (if type of zip)
   // const delDir = details.tempDir;

@@ -18,6 +18,11 @@
       "functionName": "getHotdogs"
     },
     {
+      "path": "/hotdogfiles",
+      "method": "GET",
+      "functionName": "getHotdogFiles"
+    },
+    {
       "path": "/products/{productId}/price",
       "method": "GET",
       "functionName": "getProductPrice"
@@ -49,7 +54,7 @@
     },
     "getHotdogs": {
       "type": "lambda",
-      "hostname": "localhost",
+      "host": "localhost",
       "externalPort": 9000,
       "internalPort": 8080
     },
@@ -57,6 +62,14 @@
       "type": "passthru",
       "url": "https://www.google.com/",
       "method": "GET"
+    },
+    "getHotdogFiles": {
+      "type": "filesystem",
+      "rootDir": "/Users/tdc/dev/docker/sample-lambdas/hotdogs",
+      "entryPoint": "index.handler",
+      "envVars": {},
+      "externalPort": 9000,
+      "internalPort": 8080
     },
     "setProductDetails": {
       "type": "filesystem",

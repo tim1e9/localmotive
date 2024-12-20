@@ -35,6 +35,7 @@ Pretty dang simple - just pass it on through
 - Integrated logging
 - Containers
 - Remove zip files after the container is destroyed
+- Clean up config vs. target function
 
 get request. One of:
  - proxy

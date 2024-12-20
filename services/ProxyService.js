@@ -1,7 +1,7 @@
 
 // Handle the different types of proxies: Lambda and straight passthru
 
-const handleLambdaRequest = async (config, payload) => {
+const proxyLambdaRequest = async (config, payload) => {
   try {
     const {host, externalPort} = config;
     const modifiedHost = host ? host : 'localhost';
@@ -34,7 +34,7 @@ const handleLambdaRequest = async (config, payload) => {
 
 
 // Make a passthru (proxy) request to something else
-const handlePassthruRequest = async (req, config, _settings) => {
+const proxyPassthruRequest = async (req, config, _settings) => {
   try {
     const url = config.url;
     const parms = {
@@ -61,4 +61,4 @@ const handlePassthruRequest = async (req, config, _settings) => {
 
 };
 
-export { handleLambdaRequest, handlePassthruRequest }
+export { proxyLambdaRequest, proxyPassthruRequest }
