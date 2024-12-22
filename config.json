@@ -8,27 +8,38 @@
   },
   "endpoints": [
     {
-      "path": "/products",
+      "path": "/hello",
       "method": "GET",
       "function": {
-        "name": "getProducts",
+        "name": "hello",
         "type": "zip",
-        "file": "getProducts.zip",
+        "file": "hello.zip",
         "entryPoint": "index.handler",
         "envVars": {},
         "internalPort": 8080
       } 
     },
     {
-      "path": "/hotdogs",
-      "method": "GET",
+      "path": "/echo",
+      "method": "POST",
       "function": {
-        "name": "getHotdogs",
-        "type": "lambda",
-        "host": "localhost",
+        "name": "echo",
+        "type": "image",
+        "envVars": {},
+        "imageName": "echo-lambda-image:latest",
         "externalPort": 9000,
         "internalPort": 8080  
-      } 
+      }
+    },
+    {
+      "path": "/proxyjson",
+      "method": "GET",
+      "function": {
+        "name": "proxyjson",
+        "type": "passthru",
+        "url": "https://httpbin.org/json",
+        "method": "GET"  
+      }
     },
     {
       "path": "/hotdogfiles",
@@ -44,39 +55,15 @@
       }
     },
     {
-      "path": "/products/{productId}/price",
+      "path": "/hotdogs",
       "method": "GET",
       "function": {
-        "name": "getProductPrice",
-        "type": "passthru",
-        "url": "https://www.google.com/",
-        "method": "GET"  
-      }
-    },
-    {
-      "path": "/echo",
-      "method": "GET",
-      "function": {
-        "name": "echo",
-        "type": "image",
-        "envVars": {},
-        "imageName": "echo-lambda-image:latest",
+        "name": "getHotdogs",
+        "type": "lambda",
+        "host": "localhost",
         "externalPort": 9000,
         "internalPort": 8080  
-      }
-    },
-    {
-      "path": "/products/{productId}",
-      "method": "DELETE",
-      "function": {
-        "name": "deleteProduct",
-        "type": "zip",
-        "file": "DeleteProduct.zip",
-        "entryPoint": "index.handler",
-        "envVars": {},
-        "externalPort": 9000,
-        "internalPort": 8080
-      }
+      } 
     }
   ]
 }

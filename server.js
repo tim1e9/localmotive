@@ -20,11 +20,28 @@ const ADMIN_PATH = config?.settings?.adminPathPrefix ? config.settings.adminPath
 
 await containerService.init(config.settings);
 
+// Remember: This is development. The following should scare you if you don't know what you're doing.
+app.use((req, res, next) => {
+  if (req.method === 'OPTIONS') {
+      // Set CORS headers
+      res.setHeader('Access-Control-Allow-Origin', '*'); // Allow all origins
+      res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
+      res.setHeader('Access-Control-Allow-Headers', '*'); // Allow all headers
+      res.setHeader('Access-Control-Allow-Credentials', 'true'); // Optional: Allow credentials (cookies, etc.)
+      res.status(204).send();
+  } else {
+      next();
+  }
+});
+
 app.all('/*', async (req, res) => {
   // TODO: Check if this is an admin function. If so, forward to the admin module
   if (req.path.startsWith(ADMIN_PATH)) {
     console.log(`Hey, this has the admin path in the name. That's a TODO! :-)`);
   }
+
+  // Be careful v2
+  res.setHeader('Access-Control-Allow-Origin', '*');
 
   // Check to see if anything matches the path
   const targetEndpoint = getFunctionDetailsFromPathAndMethod(req.path, req.method);
