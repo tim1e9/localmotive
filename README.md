@@ -25,8 +25,8 @@ Localmotive supports five different types of configurations:
 4. Lambda - an already running, or possibly remote lambda function
 5. Passthru - Just a simple passthru to call something hosted elsewhere
 
-For more information, and a tutorial which demonstrates each of these techniques is available
-in the `/sample` subdirectory.
+For more information, and a tutorial which demonstrates each of these techniques, please
+refer to the https://github.com/tim1e9/localmotive-samples repo.
 
 ## Docker Containers?
 Yes. As of now, Localmotive uses the Docker REST API (v1.41) to manage containers. Other
