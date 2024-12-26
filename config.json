@@ -3,8 +3,8 @@
     "adminPathPrefix": "_admin",
     "containerLabelText": "qwerty",
     "baseImage": "public.ecr.aws/lambda/nodejs:latest",
-    "zipSourceDir": "/Users/tdc/dev/docker/zips/",
-    "zipTargetDir": "/Users/tdc/dev/docker/zipruns"
+    "zipSourceDir": "/Users/tdc/dev/local/zips/",
+    "zipTargetDir": "/Users/tdc/dev/local/zipruns"
   },
   "endpoints": [
     {

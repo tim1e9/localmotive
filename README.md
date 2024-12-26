@@ -1,52 +1,35 @@
-# LOCALMOTIVE - Local Knowledge Required
+# Localmotive - Local Software Development for Functions
 
 ## Goal
-Be a front-end API which will invoke Lambda functions with the
-appropriate data structures.
+Localmotive has one main goal: Provide a simple, lightweight environment for running
+and testing functions locally - before deploying them to a shared environment.
 
-## Sample Schema
-See `config.json`
+## Functions? Don't you mean Lambdas?
+Ah, yes. Functions. Different cloud companies call them different things. As of now,
+Localmotive is focused on AWS Lambda functions. However, things change over time,
+so to keep thing simple, let's just call them functions.
 
-## How this stuff works
+## Tell Me More
+A developer specifies details about a set of functions in a configuration file.
+Localmotive then reads that file and provides an HTTP API for invoking those functions.
+When used in concert with Trylam, it's even possible to locally debug a function.
 
-### Passthru
-Pretty dang simple - just pass it on through
-- Consider an option to modify headers, the method, and even the payload
-- Timeout may need to be significantly increased
+Since everything runs locally, via Docker containers, all output logs and details are
+immediately available. It's no longer necessary to deploy functions with print / console
+messages, and then iteratively test the code and review the logs. Do it all in a single place.
 
-### Zip file
-- Write a lambda and zip it up - just like you're going to upload it in the AWS Console
-- Use the Lambda runtime image as the base image
-- Create the appropriate entries in `config.json`
-- When launched:
-  - unzip the file into a specific directory
-  - Make a (Lambda) proxy call from localmotive to the newly launched docker container
+Localmotive supports five different types of configurations:
+1. Container image - functions built upon one of the existing AWS Lambda container images.
+2. Zip file - a zip file containing the function code.
+3. Filesystem - unzipped, normal code residing on the local filesystem
+4. Lambda - an already running, or possibly remote lambda function
+5. Passthru - Just a simple passthru to call something hosted elsewhere
 
-### Container Image
-- Write a lambda and make it into a container image
-- Create the appropriate entries in `config.json`
-- When launched:
-  - Create / launch container (with appropriate localmotive tags)
-  - Make a (Lambda) proxy call from localmotive to the newly launched docker container
+For more information, and a tutorial which demonstrates each of these techniques is available
+in the `/sample` subdirectory.
 
+## Docker Containers?
+Yes. As of now, Localmotive uses the Docker REST API (v1.41) to manage containers. Other
+container runtimes supposedly support this API, so non-Docker container runtimes should
+also work. Please refer to the container runtime documentation for more details.
 
-## TODOs
-- Move from unique prefix names to tags
-- Integrated logging
-- Containers
-- Remove zip files after the container is destroyed
-- Clean up config vs. target function
-
-get request. One of:
- - proxy
- - zip
- - filesystem
- - container
-
-Proxy is simple
-The rest:
- - is container running? proxy request
- - not running?
-    Filesystem - map filesystem to container and go
-    Zip - extract to filesystem; map filesystem to container and go
-    Container - pull container; no map, and go

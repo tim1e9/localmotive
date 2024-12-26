@@ -118,8 +118,11 @@ const launchContainer = async (containerName, containerConfig) => {
     }
 
   } catch (exc) {
-    console.error(`Error launching container: ${exc.message}`);
-    throw new Error(exc);
+    const msg = `Error launching container: ${exc.message}. ` 
+      +"404 errors can occur when local images are not found. "
+      +"Pull / build the image locally and try again"
+    console.error(msg);
+    throw new Error(msg);
   }
 }
 

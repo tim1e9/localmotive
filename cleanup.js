@@ -7,5 +7,9 @@ if (!configFile) {
     throw new Error(`Missing configuration file: (Set CONFIG_FILE in the environment)`);
 }
 const config = await loadConfig(configFile)
-await init(config.settings);
-await destroyAllContainers()
+try {
+    await init(config.settings);
+    await destroyAllContainers()
+} catch(exc) {
+    console.log(`Error: ${exc.message}`);
+}
