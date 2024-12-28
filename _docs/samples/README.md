@@ -13,6 +13,9 @@ transforms web requests into events, and dispatches them appropriately. Logs can
 viewed with the standard container runtime tooling being used. Lastly, standard container management
 techniques are used to attach to containers, or stop/start them.
 
+## Prerequisites
+
+To run the tutorial, you'll need Docker Desktop or the equivalent support for the v1.41 Docker runtime API.
 
 ## Code Build
 
@@ -20,10 +23,10 @@ There are four Lambda functions in this tutorial:
 1. `hello` - Basically a 'Hello world' for Lambda. The code is bundled as a zip before being deployed.
 2. `echo` - Echo back to the caller all of the information that's available as part of a Lambda event.
    The code is built into a container image before being deployed.
-3. `hotdogs` - Return a string with a random number between 1 and 20. (e.g. I am sending you 10 hot dogs.)
+3. `passthru` - Not an actual Lambda, but an example of how to make a passthru call to a service.
+4. `hotdogs` - Return a string with a random number between 1 and 20. (e.g. I am sending you 10 hot dogs.)
    This code will reside on the filesystem. In the 2nd part of the tutorial, we'll use `Trylam` to debug
    the code in real time.
-4. `passthru` - Not an actual Lambda, but an example of how to make a passthru call to a service.
 
 Both the `hello` and `echo` projects have simple build instructions recorded in a README file. Before
 proceeding, be sure to build both projects.
@@ -31,13 +34,15 @@ proceeding, be sure to build both projects.
 ## Configuration
 
 Localmotive is driven by a configuration file. The file - named `config.json` - is located in the
-same directory as these instructions.
+same directory as these instructions. At runtime, Localmotive looks for an envrionment variable named
+`CONFIG_FILE` to locate configuration data. This environment variable is mandatory at this time.
 
 The file contains both global values (via "settings"), and individual API endpoint details.
 Review the contents of the file to familiarize yourself with what to expect.
 
 **NOTE:** The file should work with little to no modification. The only thing that must be changed is the
-absolute path being used. If you're using a Mac, simply replace `abc123` with your userid on your Mac.
+absolute path being used. If you're using a Mac, it may be as simple as replacing `abc123` with your
+userid on your Mac.
 
 ## The Localmotive Server
 
@@ -126,5 +131,12 @@ Note that the `/hotdogs` directory also contains a debugging profile for Visual 
 4. Switch back to the UI, and click the 'Invoke the Hotdog Debugger' button. After a moment, the debugger should gain focus
    and you can begin debugging the code. After making some inspections on the debugger, allow the code to run to completion.
 
+## Shutdown
 
+To shut everything down, be sure to stop all containers and remove all unzipped files. There's also a helper function to
+remove containers. To use it, run the following from the root of Localmotive:
+
+```
+node cleanup.js
+```
 
