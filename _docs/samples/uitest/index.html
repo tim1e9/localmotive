@@ -1,0 +1,112 @@
+<html>
+  <head><title>UI Test - Trylam and Localmotive</title></head>
+  <script>
+    const baseURL = "http://localhost:3000"
+    const fetchData = async (path, payload, queries, headers, method) => {
+      const url = baseURL + path + (queries ? queries : "");
+      const opts = {
+        method: method
+      };
+      if (payload) { opts.body = payload; }
+      if (headers) { opts.headers = headers }
+      try {
+        const lambdaResponse = await fetch(url, opts);
+        const jsonResponse = await lambdaResponse.json();
+        return jsonResponse;
+      } catch(exc) {
+        console.error(exc.message);
+      }
+      return null;
+    }
+
+    const test1 = async () => {
+      const inputElem = document.getElementById("test1input");
+      const elemText = inputElem.value;
+      const results = await fetchData("/hello", null, `?name=${elemText}`, null, "GET");
+      const outputElem = document.getElementById("test1output");
+      outputElem.value = results.result;
+      return false;
+    }
+
+    const test2 = async () => {
+      const results = await fetchData("/echo", {mybodykey:"mybodyvalue"}, `?color=red`, {'kenny': 'powers'}, "POST");
+      const outputElem = document.getElementById("test2output");
+      outputElem.value = results;
+      return false;
+    }
+
+    const test3 = async () => {
+      const results = await fetchData("/proxyjson", null, "", null, "GET");
+      const outputElem = document.getElementById("test3output");
+      outputElem.value = JSON.stringify(results);
+      return false;
+    }
+
+    const test4 = async () => {
+      const results = await fetchData("/hotdogfiles", null, "", null, "GET");
+      const outputElem = document.getElementById("test4output");
+      outputElem.value = JSON.stringify(results);
+      return false;
+    }
+
+    const test5 = async () => {
+      const results = await fetchData("/hotdogs", null, "", null, "GET");
+      const outputElem = document.getElementById("test5output");
+      outputElem.value = JSON.stringify(results);
+      return false;
+    }
+
+  </script>
+  <body>
+    <div>
+      <div id="testone">
+        <p>Test 1: Say Hello</p>
+        <form>
+          <label>Name: </label><input id="test1input" type="text"/>
+          <p>Results:
+            <textarea readonly id="test1output" rows="2" cols="80"></textarea>
+          </p>
+          <button id="test1button" onclick="test1(); return false;">Go</button>
+        </form>
+        <hr/>
+      </div>
+      <div id="testtwo">
+        <p>Test 2: Echo</p>
+        <form>
+          <button id="test2button" onclick="test2(); return false;">Invoke the echo test</button>
+          <p>Results:
+            <textarea readonly id="test2output" rows="10" cols="80"></textarea>
+          </p>
+        </form>
+      </div>
+      <div id="testthree">
+        <p>Test 3: Make a passthru (proxy) call to an external server</p>
+        <p>The URL: https://httpbin.org/json</p>
+        <form>
+          <button id="test3button" onclick="test3(); return false;">Invoke the passthru test</button>
+          <p>Results:
+            <textarea readonly id="test3output" rows="4" cols="80"></textarea>
+          </p>
+        </form>
+      </div>
+      <div id="testfour">
+        <p>Test 4: Invoke a call to a file-based Lambda function</p>
+        <form>
+          <button id="test4button" onclick="test4(); return false;">Invoke the file-based test</button>
+          <p>Results:
+            <textarea readonly id="test4output" rows="4" cols="80"></textarea>
+          </p>
+        </form>
+      </div>
+      <div id="testfive">
+        <p>Test 5: D B U G</p>
+        <form>
+          <button id="test5button" onclick="test5(); return false;">Invoke the Hotdog Debugger</button>
+          <p>Results:
+            <textarea readonly id="test5output" rows="4" cols="80"></textarea>
+          </p>
+        </form>
+      </div>
+    </div>
+  </body>
+</html>

@@ -3,8 +3,8 @@
     "adminPathPrefix": "_admin",
     "containerLabelText": "qwerty",
     "baseImage": "public.ecr.aws/lambda/nodejs:latest",
-    "zipSourceDir": "/Users/tdc/dev/local/zips/",
-    "zipTargetDir": "/Users/tdc/dev/local/zipruns"
+    "zipSourceDir": "/Users/abc123/dev/local/zips/",
+    "zipTargetDir": "/Users/abc123/dev/local/zipruns"
   },
   "endpoints": [
     {
@@ -47,7 +47,7 @@
       "function": {
         "name": "getHotdogFiles",
         "type": "filesystem",
-        "rootDir": "/Users/tdc/dev/docker/sample-lambdas/hotdogs",
+        "rootDir": "/Users/abc123/dev/local/_docs/samples/hotdogs",
         "entryPoint": "index.handler",
         "envVars": {},
         "externalPort": 9000,
