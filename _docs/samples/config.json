@@ -4,7 +4,10 @@
     "containerLabelText": "qwerty",
     "baseImage": "public.ecr.aws/lambda/nodejs:latest",
     "zipSourceDir": "/Users/abc123/dev/local/zips/",
-    "zipTargetDir": "/Users/abc123/dev/local/zipruns"
+    "zipTargetDir": "/Users/abc123/dev/local/zipruns",
+    "envVars": {
+      "curenv": "local"
+    }
   },
   "endpoints": [
     {
@@ -15,7 +18,9 @@
         "type": "zip",
         "file": "hello.zip",
         "entryPoint": "index.handler",
-        "envVars": {},
+        "envVars": {
+          "extraMessage": "Have a great day"
+        },
         "internalPort": 8080
       } 
     },

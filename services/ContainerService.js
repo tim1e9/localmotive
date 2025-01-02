@@ -98,7 +98,11 @@ const getContainerConfig = (containerName, containerImage, entryPoint, localDir,
   //  "foo=bar"
   //],
   if (envVars) {
-    containerConfig.Env = envVars
+    const entries = [];
+    for (const [k,v] of Object.entries(envVars)) {
+      entries.push(`${k}=${v}`)
+    }
+    containerConfig.Env = entries;
   }
   return containerConfig;
 }

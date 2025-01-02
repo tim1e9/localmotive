@@ -56,6 +56,9 @@ const bringUpContainer = async (containerName, targetEndpoint, settings) => {
     // This is for containers that run from an image exclusively
     fileMappingSource = null;
   }
+  
+  const allEnvVars = Object.assign({}, settings.envVars, targetEndpoint.function.envVars);
+
   const containerConfig = containerService.getContainerConfig(
     containerName,
     targetEndpoint.function.imageName ? targetEndpoint.function.imageName : settings.baseImage,
@@ -63,7 +66,7 @@ const bringUpContainer = async (containerName, targetEndpoint, settings) => {
     fileMappingSource,
     await containerService.getAvailablePort(),
     targetEndpoint.function.internalPort,
-    null);
+    allEnvVars);
 
   await containerService.launchContainer(containerName, containerConfig);
   return await containerService.getContainer(containerName);
