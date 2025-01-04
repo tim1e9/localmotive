@@ -1,6 +1,6 @@
 import 'dotenv/config'
 import express from 'express';
-
+import { initProxyLogging } from './services/BasicReqResLoggingService.js';
 import { handlePassthruRequest,
          handleManagedLambdaRequest,
          handleUnmanagedLambdaRequest } from './handlers/Handlers.js';
@@ -18,6 +18,7 @@ if (!configFile) {
 const config = await loadConfig(configFile)
 const ADMIN_PATH = config?.settings?.adminPathPrefix ? config.settings.adminPathPrefix : '_admin';
 
+initProxyLogging();
 await containerService.init(config.settings);
 
 // Remember: This is development. The following should scare you if you don't know what you're doing.

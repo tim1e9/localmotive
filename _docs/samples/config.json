@@ -3,8 +3,9 @@
     "adminPathPrefix": "_admin",
     "containerLabelText": "qwerty",
     "baseImage": "public.ecr.aws/lambda/nodejs:latest",
-    "zipSourceDir": "/Users/abc123/dev/local/zips/",
-    "zipTargetDir": "/Users/abc123/dev/local/zipruns",
+    "zipSourceDir": "/Users/tdc/dev/local/zips/",
+    "zipTargetDir": "/Users/tdc/dev/local/zipruns",
+    "includeCloudVars": true,
     "envVars": {
       "curenv": "local"
     }
@@ -52,7 +53,7 @@
       "function": {
         "name": "getHotdogFiles",
         "type": "filesystem",
-        "rootDir": "/Users/abc123/dev/local/_docs/samples/hotdogs",
+        "rootDir": "/Users/tdc/dev/local/_docs/samples/hotdogs",
         "entryPoint": "index.handler",
         "envVars": {},
         "externalPort": 9000,

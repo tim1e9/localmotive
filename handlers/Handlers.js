@@ -59,6 +59,13 @@ const bringUpContainer = async (containerName, targetEndpoint, settings) => {
   
   const allEnvVars = Object.assign({}, settings.envVars, targetEndpoint.function.envVars);
 
+  if (settings.includeCloudVars == true) {
+    allEnvVars['AWS_ACCESS_KEY_ID'] = process.env.AWS_ACCESS_KEY_ID;
+    allEnvVars['AWS_SECRET_ACCESS_KEY'] = process.env.AWS_SECRET_ACCESS_KEY;
+    allEnvVars['AWS_SESSION_TOKEN'] = process.env.AWS_SESSION_TOKEN;
+    allEnvVars['AWS_REGION'] = process.env.AWS_REGION;
+  }
+
   const containerConfig = containerService.getContainerConfig(
     containerName,
     targetEndpoint.function.imageName ? targetEndpoint.function.imageName : settings.baseImage,
