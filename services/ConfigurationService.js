@@ -19,7 +19,7 @@ const pathsAndMethodsMatch = (endpoint, targetPath, targetMethod) => {
         rc = rc && (elem.startsWith("{") && elem.endsWith("}")
                 ||  elem == t[idx]);
     })
-    return rc && (endpoint.method == targetMethod);
+    return rc && (endpoint.method == targetMethod || endpoint.method == "ANY");
 };
 
 const getFunctionDetailsFromPathAndMethod = (path, method) => {
@@ -27,7 +27,6 @@ const getFunctionDetailsFromPathAndMethod = (path, method) => {
         // Iterate across all endpoints to find a match
         const curEndpoint = config.endpoints.find( (endpoint) =>
             pathsAndMethodsMatch(endpoint, path, method));
-        //const curFunction = config.functions[curEndpoint.functionName];
         return curEndpoint;
     } catch(exc) {
         // Note: A null config will be caught here too

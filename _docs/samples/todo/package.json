@@ -1,0 +1,16 @@
+{
+  "dependencies": {
+    "pg": "^8.13.1",
+    "trylam": "0.1.4"
+  },
+  "name": "todo",
+  "version": "1.0.0",
+  "description": "Because everyone has stuff to do.",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "MIT"
+}

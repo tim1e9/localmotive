@@ -70,6 +70,35 @@
         "externalPort": 9000,
         "internalPort": 8080  
       } 
+    },
+    {
+      "path": "/tododbug",
+      "method": "ANY",
+      "function": {
+        "name": "tododebug",
+        "type": "lambda",
+        "host": "localhost",
+        "externalPort": 9000,
+        "internalPort": 8080  
+      } 
+    },
+   {
+      "path": "/todo",
+      "method": "ANY",
+      "function": {
+        "name": "todos",
+        "type": "zip",
+        "file": "todo.zip",
+        "entryPoint": "index.handler",
+        "envVars": {
+          "DB_HOST": "host.docker.internal",
+          "DB_USER": "fakeuser",
+          "DB_PASSWORD": "fakepassword",
+          "DB_NAME": "postgres",
+          "DB_PORT": 5432
+        },
+        "internalPort": 8080
+      } 
     }
   ]
 }
