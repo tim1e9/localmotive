@@ -153,15 +153,6 @@ const destroyContainer = async (containerName) => {
   // Stop the container
   const response = await dockerDaemon.post(`/containers/${containerName}/stop`, {});
   console.log(`Container destroyed: ${containerName}`, response.data);
-
-  // TODO: Remove the unzipped files (if type of zip)
-  // const delDir = details.tempDir;
-  // if (delDir) {
-  //     console.log(`Deleting directory: ${delDir}`);
-  //     await fs.rm(delDir, { recursive: true, force: true});
-  //     console.log("Done");
-  // }
-  // return true;
 };
 
 export { init, getAvailablePort, getContainer, getContainerConfig, launchContainer, destroyAllContainers };
