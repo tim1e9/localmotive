@@ -56,7 +56,7 @@ app.all('/*', async (req, res) => {
     return;
   }
 
-  const lambdaPayload = convertHttpRequestToLambdaPayload(req);
+  const lambdaPayload = convertHttpRequestToLambdaPayload(req, targetEndpoint);
 
   // A value of 'lambda' represents existing (nonmanaged) lambda functions. No need
   // to start up a container or anything else; just make the call and return the results

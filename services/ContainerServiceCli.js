@@ -2,6 +2,9 @@
 import { exec } from 'child_process';
 import { promisify } from 'util';
 
+const dockerCmd = process.env.DOCKER_CMD ? process.env.DOCKER_CMD : 'docker';
+console.log(`CLI docker command (or equivalent): ${dockerCmd}`);
+
 const execPromise = promisify(exec);
 
 let containerLabelText = "localknowledgerequired";  // Used to identify running containers owned by Localmotive
@@ -39,7 +42,7 @@ const getPortsFromString = (rawString) => {
 
 const getAllContainers = async () => {
   try {
-    const resp = await runCliCommandAndGetOutput('docker ps --format json --no-trunc', 'json');
+    const resp = await runCliCommandAndGetOutput(`${dockerCmd} ps --format json --no-trunc`, 'json');
     // Key all containers by their name
     const containers = {};
     for (const entry of resp) {
@@ -83,7 +86,7 @@ const getContainerConfig = (containerName, containerImage, entryPoint, localDir,
   const envString = envArray.join(" ");
   const mapLocal = localDir ? `-v ${localDir}:/var/task` : '';
 
-  const containerConfig = `docker run --rm -d --name ${containerName} ${envString}`
+  const containerConfig = `${dockerCmd} run -d --name ${containerName} ${envString}`
   + ` --label localmotive=${containerLabelText} ${mapLocal} -p ${externalPort}:${internalPort} ${containerImage} ${entryPoint}`;
   console.log(containerConfig);
   return containerConfig;
@@ -128,7 +131,7 @@ const destroyAllContainers = async () => {
 
 const destroyContainer = async (containerName) => {
   // Stop the container. (All containers should have --rm, so stop will also remove them)
-  const response = await runCliCommandAndGetOutput(`docker stop ${containerName}`);
+  const response = await runCliCommandAndGetOutput(`${dockerCmd} rm -f ${containerName}`);
   console.log(`Container destroyed: ${containerName}`, response);
 };
 

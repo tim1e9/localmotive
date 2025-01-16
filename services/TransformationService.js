@@ -1,5 +1,24 @@
 
-const convertHttpRequestToLambdaPayload = (req) => {
+const getPathParameters = (pathTemplate, pathInvoked) => {
+  const params = {};
+  try {
+    const templateParts = pathTemplate.split('/');
+    const invokedParts = pathInvoked.split('/');
+    for(let i=1; i < templateParts.length; i++) {
+      const curTemplatePart = templateParts[i];
+      const curInvokedPart = invokedParts[i];
+      if (curTemplatePart.startsWith('{') && curTemplatePart.endsWith('}')) {
+        const pathVarName = curTemplatePart.substring(1, curTemplatePart.length-1);
+        params[pathVarName] = curInvokedPart;
+      }
+    }
+  } catch(exc) {
+    console.log(`Path parameters could not be parsed: ${exc.message}`);
+  }
+  return params;
+}
+
+const convertHttpRequestToLambdaPayload = (req, targetEndpoint) => {
 
   const payload = {
     "resource": req.path,
@@ -30,7 +49,7 @@ const convertHttpRequestToLambdaPayload = (req) => {
       "resourcePath": "/my/path",
       "stage": "$default"
     },
-    "pathParameters": null,
+    "pathParameters": getPathParameters(targetEndpoint.path, req.path),
     "stageVariables": null,
     "body": JSON.stringify(req.body),
     "isBase64Encoded": false

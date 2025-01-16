@@ -1,5 +1,4 @@
 const containerDriver = process.env.CONTAINER_SERVICE ? process.env.CONTAINER_SERVICE : "cli";
-
 let cs = null;
 
 if (containerDriver == 'cli') {
@@ -9,5 +8,6 @@ if (containerDriver == 'cli') {
 } else {
   throw new Error(`Could not find container service named: ${containerDriver}`);
 }
+console.log(`Container service being used: ${containerDriver}`);
 
 export const { init, getAvailablePort,  getContainer, getContainerConfig, launchContainer, destroyAllContainers} = cs;
