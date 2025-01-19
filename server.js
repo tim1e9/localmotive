@@ -4,6 +4,7 @@ import { initProxyLogging } from './services/BasicReqResLoggingService.js';
 import { handlePassthruRequest,
          handleManagedLambdaRequest,
          handleUnmanagedLambdaRequest } from './handlers/Handlers.js';
+import { handleAdminRequest } from './services/AdminService.js';
 import * as containerService from './services/ContainerService.js';
 import { convertHttpRequestToLambdaPayload } from './services/TransformationService.js';
 import { loadConfig, getFunctionDetailsFromPathAndMethod } from './services/ConfigurationService.js';
@@ -16,7 +17,7 @@ if (!configFile) {
   throw new Error(`Missing configuration file: (Set CONFIG_FILE in the environment)`);
 }
 const config = await loadConfig(configFile)
-const ADMIN_PATH = config?.settings?.adminPathPrefix ? config.settings.adminPathPrefix : '_admin';
+const ADMIN_PATH = config?.settings?.adminPathPrefix ? config.settings.adminPathPrefix : '/_admin';
 
 initProxyLogging();
 await containerService.init(config.settings);
@@ -38,8 +39,8 @@ app.use((req, res, next) => {
 app.all('/*', async (req, res) => {
   // TODO: Check if this is an admin function. If so, forward to the admin module
   if (req.path.startsWith(ADMIN_PATH)) {
-    console.log(`Hey, this has the admin path in the name. That's a TODO! :-)`);
-    res.status(404).send("I'm still workin' on it...");
+    handleAdminRequest(req, res, config.settings);
+    return;
   }
 
   // Be careful v2

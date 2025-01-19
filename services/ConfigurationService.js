@@ -35,4 +35,16 @@ const getFunctionDetailsFromPathAndMethod = (path, method) => {
     }
 }
 
-export { loadConfig, getFunctionDetailsFromPathAndMethod }
+const getFunctionDetailsFromName = (name) => {
+    try {
+        // Iterate across all endpoints to find a match
+        const curEndpoint = config.endpoints.find( (endpoint) => 
+            name == endpoint.function.name);
+        return curEndpoint;
+    } catch(exc) {
+        console.error(`Exception retrieving function: ${exc.message}`);
+        return null;
+    }
+}
+
+export { loadConfig, getFunctionDetailsFromPathAndMethod, getFunctionDetailsFromName }

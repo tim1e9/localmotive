@@ -1,6 +1,6 @@
 {
   "settings": {
-    "adminPathPrefix": "_admin",
+    "adminPathPrefix": "/_admin",
     "containerLabelText": "qwerty",
     "baseImage": "public.ecr.aws/lambda/nodejs:latest",
     "zipSourceDir": "/Users/tdc/dev/local/zips/",
