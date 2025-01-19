@@ -9,10 +9,10 @@ const pool = new Pool({
   port: process.env.DB_PORT,
 });
 
-export const createToDo = async (title, description) => {
+export const createToDo = async (title, description, status) => {
   const createResult = await pool.query(
-    'INSERT INTO todos (title, description) VALUES ($1, $2) RETURNING *',
-    [title, description]
+    'INSERT INTO todos (title, description, status) VALUES ($1, $2, $3) RETURNING *',
+    [title, description, status]
   );
   return createResult.rows[0];
 };
@@ -22,10 +22,10 @@ export const getAllToDos = async () => {
   return readResult.rows;
 };
 
-export const updateToDo = async (updatedTitle, updatedDescription) => {
+export const updateToDo = async (todoId, updatedTitle, updatedDescription, updatedStatus) => {
   const updateResult = await pool.query(
-    'UPDATE todos SET title = $1, description = $2, updated_at = NOW() WHERE id = $3 RETURNING *',
-    [updatedTitle, updatedDescription, todoId]
+    'UPDATE todos SET title = $1, description = $2, updatedStatus = $3 WHERE id = $4 RETURNING *',
+    [updatedTitle, updatedDescription, updatedStatus, todoId]
   );
   return updateResult.rows[0];
 };

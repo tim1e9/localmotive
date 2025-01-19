@@ -2,12 +2,12 @@ import { updateToDo } from "./dbservice";
 
 export const handler = async (event) => {
   console.log("Updating a todo...");
-  const { body } = event;
+  const { pathParameters, body } = event;
   const data = body ? JSON.parse(body) : null;
 
   try {
-    const { updatedTitle, updatedDescription } = data;
-    const result = updateToDo(updatedTitle, updatedDescription);
+    const { updatedTitle, updatedDescription, updatedStatus } = data;
+    const result = updateToDo(pathParameters.id, updatedTitle, updatedDescription, updatedStatus);
     return { statusCode: 200, body: JSON.stringify(result) };
   } catch(exc) {
     console.error(exc);

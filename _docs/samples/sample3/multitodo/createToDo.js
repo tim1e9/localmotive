@@ -6,8 +6,8 @@ export const handler = async (event) => {
   const data = body ? JSON.parse(body) : null;
 
   try {
-    const { title, description } = data;
-    const result = await createToDo(title, description);
+    const { title, description, status } = data;
+    const result = await createToDo(title, description, status);
     return { statusCode: 201, body: JSON.stringify(result) };
   } catch(exc) {
     console.error(exc);
