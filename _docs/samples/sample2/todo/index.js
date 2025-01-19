@@ -10,7 +10,6 @@ const pool = new Pool({
 });
 
 export const handler = async (event) => {
-  console.log("VAN HALEN");
   const { httpMethod, pathParameters, body } = event;
   const todoId = pathParameters?.id;
   const data = body ? JSON.parse(body) : null;

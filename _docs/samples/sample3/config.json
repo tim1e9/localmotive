@@ -6,10 +6,11 @@
     "zipSourceDir": "/Users/tdc/dev/local/zips/",
     "zipTargetDir": "/Users/tdc/dev/local/zipruns",
     "includeCloudVars": false,
+    "unmatchedFunctionPassthruURL": "http://localhost:9001/api",
     "envVars": {
       "DB_HOST": "host.docker.internal",
       "DB_USER": "admin",
-      "DB_PASSWORD": "passw0rd",
+      "DB_PASSWORD": "fakepassword",
       "DB_NAME": "postgres",
       "DB_PORT": 5432
     }

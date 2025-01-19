@@ -39,16 +39,29 @@ app.all('/*', async (req, res) => {
   // TODO: Check if this is an admin function. If so, forward to the admin module
   if (req.path.startsWith(ADMIN_PATH)) {
     console.log(`Hey, this has the admin path in the name. That's a TODO! :-)`);
+    res.status(404).send("I'm still workin' on it...");
   }
 
   // Be careful v2
   res.setHeader('Access-Control-Allow-Origin', '*');
 
   // Check to see if anything matches the path
-  const targetEndpoint = getFunctionDetailsFromPathAndMethod(req.path, req.method);
+  let targetEndpoint = getFunctionDetailsFromPathAndMethod(req.path, req.method);
   if (!targetEndpoint) {
-    res.status(404).send("Requested target function not found");
-    return;
+    if (config?.settings?.unmatchedFunctionPassthruURL) {
+      // Treat this like a passthru request
+      targetEndpoint = {
+        function: {
+          "type": "passthru",
+          "method": req.method,
+          "url": config.settings.unmatchedFunctionPassthruURL + req.path
+        }
+      };
+    } else {
+      // No passthru URL and no function match - not found
+      res.status(404).send("Requested target function not found");
+      return;
+    }
   }
 
   if (targetEndpoint.function.type == 'passthru') {

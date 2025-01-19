@@ -120,7 +120,7 @@ const proxyPassthruRequest = async (req, targetEndpoint) => {
       transactionId: uniqueID
     });
     return {
-      status: 500,
+      status: 400,
       result: msg
     }
   }

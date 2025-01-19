@@ -9,6 +9,6 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
-    "trylam": "^0.1.3"
+    "trylam": "^0.1.5"
   }
 }
