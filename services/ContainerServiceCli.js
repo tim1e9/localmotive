@@ -85,9 +85,10 @@ const getContainerConfig = (containerName, containerImage, entryPoint, localDir,
   });
   const envString = envArray.join(" ");
   const mapLocal = localDir ? `-v ${localDir}:/var/task` : '';
+  const ep = entryPoint ? entryPoint : '';
 
   const containerConfig = `${dockerCmd} run -d --name ${containerName} ${envString}`
-  + ` --label localmotive=${containerLabelText} ${mapLocal} -p ${externalPort}:${internalPort} ${containerImage} ${entryPoint}`;
+  + ` --label localmotive=${containerLabelText} ${mapLocal} -p ${externalPort}:${internalPort} ${containerImage} ${ep}`;
   console.log(containerConfig);
   return containerConfig;
 }

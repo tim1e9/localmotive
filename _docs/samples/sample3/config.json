@@ -3,8 +3,8 @@
     "adminPathPrefix": "/_admin",
     "containerLabelText": "qwerty",
     "baseImage": "public.ecr.aws/lambda/nodejs:latest",
-    "zipSourceDir": "/Users/tdc/dev/local/zips/",
-    "zipTargetDir": "/Users/tdc/dev/local/zipruns",
+    "zipSourceDir": "/<replace_with_real_dir>/dev/local/zips/",
+    "zipTargetDir": "/<replace_with_real_dir>/dev/local/zipruns",
     "includeCloudVars": true,
     "unmatchedFunctionPassthruURL": "http://localhost:9001/api",
     "envVars": {
@@ -22,7 +22,7 @@
       "function": {
         "name": "getToDos",
         "type": "filesystem",
-        "rootDir": "/Users/tdc/dev/local/localmotive/_docs/samples/sample3/multitodo",
+        "rootDir": "./_docs/samples/sample3/multitodo",
         "entryPoint": "getToDos.handler",
         "envVars": {},
         "externalPort": 9000,
@@ -35,7 +35,7 @@
       "function": {
         "name": "createToDo",
         "type": "filesystem",
-        "rootDir": "/Users/tdc/dev/local/localmotive/_docs/samples/sample3/multitodo",
+        "rootDir": "./_docs/samples/sample3/multitodo",
         "entryPoint": "createToDo.handler",
         "envVars": {},
         "externalPort": 9000,
@@ -43,12 +43,12 @@
       }
     },
     {
-      "path": "/todo",
+      "path": "/todo/{todoId}",
       "method": "PUT",
       "function": {
         "name": "updateToDo",
         "type": "filesystem",
-        "rootDir": "/Users/tdc/dev/local/localmotive/_docs/samples/sample3/multitodo",
+        "rootDir": "./_docs/samples/sample3/multitodo",
         "entryPoint": "updateToDo.handler",
         "envVars": {},
         "externalPort": 9000,
@@ -61,7 +61,7 @@
       "function": {
         "name": "deleteToDo",
         "type": "filesystem",
-        "rootDir": "/Users/tdc/dev/local/localmotive/_docs/samples/sample3/multitodo",
+        "rootDir": "./_docs/samples/sample3/multitodo",
         "entryPoint": "deleteToDo.handler",
         "envVars": {},
         "externalPort": 9000,
@@ -74,7 +74,7 @@
       "function": {
         "name": "bulkUploadToDo",
         "type": "filesystem",
-        "rootDir": "/Users/tdc/dev/local/localmotive/_docs/samples/sample3/multitodo",
+        "rootDir": "./_docs/samples/sample3/multitodo",
         "entryPoint": "bulkUpload.handler",
         "envVars": {},
         "externalPort": 9000,

@@ -3,8 +3,8 @@
     "adminPathPrefix": "/_admin",
     "containerLabelText": "qwerty",
     "baseImage": "public.ecr.aws/lambda/nodejs:latest",
-    "zipSourceDir": "/Users/tdc/dev/local/zips/",
-    "zipTargetDir": "/Users/tdc/dev/local/zipruns",
+    "zipSourceDir": "/<replace_with_real_dir>/dev/local/zips/",
+    "zipTargetDir": "/<replace_with_real_dir>/dev/local/zipruns",
     "includeCloudVars": true,
     "envVars": {
       "curenv": "local"
@@ -32,7 +32,7 @@
         "entryPoint": "index.handler",
         "envVars": {
           "DB_HOST": "host.docker.internal",
-          "DB_USER": "fakeuser",
+          "DB_USER": "admin",
           "DB_PASSWORD": "fakepassword",
           "DB_NAME": "postgres",
           "DB_PORT": 5432

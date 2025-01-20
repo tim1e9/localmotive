@@ -23,8 +23,9 @@ export const getAllToDos = async () => {
 };
 
 export const updateToDo = async (todoId, updatedTitle, updatedDescription, updatedStatus) => {
+  console.log(`ID: ${todoId}. Title: ${updatedTitle}. D: ${updatedDescription}. Status: ${updatedStatus}`);
   const updateResult = await pool.query(
-    'UPDATE todos SET title = $1, description = $2, updatedStatus = $3 WHERE id = $4 RETURNING *',
+    'UPDATE todos SET title = $1, description = $2, status = $3 WHERE id = $4 RETURNING *',
     [updatedTitle, updatedDescription, updatedStatus, todoId]
   );
   return updateResult.rows[0];

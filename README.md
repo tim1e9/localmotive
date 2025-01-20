@@ -39,7 +39,7 @@ In most scenarios, Localmotive runs functions as follows:
    artifacts within the local filesystem.
 2. Start a locally-running container and provide the entrypoint to the Lambda
    function. This leverages the 
-   (Lamda runtime API)[https://docs.aws.amazon.com/lambda/latest/dg/runtimes-api.html]
+   [Lamda runtime API](https://docs.aws.amazon.com/lambda/latest/dg/runtimes-api.html)
    for sending events to the function.
 3. Convert an HTTP-based invocation into a Lambda event, and send the event to the
    Lambda function.

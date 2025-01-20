@@ -3,9 +3,9 @@
     "adminPathPrefix": "/_admin",
     "containerLabelText": "qwerty",
     "baseImage": "public.ecr.aws/lambda/nodejs:latest",
-    "zipSourceDir": "/Users/tdc/dev/local/zips/",
-    "zipTargetDir": "/Users/tdc/dev/local/zipruns",
-    "includeCloudVars": true,
+    "zipSourceDir": "/<replace_with_real_dir>/dev/local/zips/",
+    "zipTargetDir": "/<replace_with_real_dir>/dev/local/zipruns",
+    "includeCloudVars": false,
     "envVars": {
       "curenv": "local"
     }
@@ -27,16 +27,17 @@
       "method": "ANY",
       "function": {
         "name": "todos",
-        "type": "zip",
-        "file": "todo.zip",
+        "type": "filesystem",
+        "rootDir": "./_docs/samples/sample4/ts-todo",
         "entryPoint": "index.handler",
         "envVars": {
           "DB_HOST": "host.docker.internal",
-          "DB_USER": "fakeuser",
+          "DB_USER": "admin",
           "DB_PASSWORD": "fakepassword",
           "DB_NAME": "postgres",
           "DB_PORT": 5432
         },
+        "externalPort": 9000,
         "internalPort": 8080
       } 
     }

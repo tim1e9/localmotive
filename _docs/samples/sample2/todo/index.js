@@ -10,17 +10,16 @@ const pool = new Pool({
 });
 
 export const handler = async (event) => {
-  const { httpMethod, pathParameters, body } = event;
-  const todoId = pathParameters?.id;
+  const { httpMethod, queryStringParameters, body } = event;
   const data = body ? JSON.parse(body) : null;
 
   try {
     switch (httpMethod) {
       case 'POST': {
-        const { title, description } = data;
+        const { title, description, status } = data;
         const createResult = await pool.query(
-          'INSERT INTO todos (title, description) VALUES ($1, $2) RETURNING *',
-          [title, description]
+          'INSERT INTO todos (title, description, status) VALUES ($1, $2, $3) RETURNING *',
+          [title, description, status]
         );
         return { statusCode: 201, body: JSON.stringify(createResult.rows[0]) };
       }
@@ -31,28 +30,22 @@ export const handler = async (event) => {
       }
 
       case 'PUT': {
-        const { updatedTitle, updatedDescription } = data;
+        const { id, updatedTitle, updatedDescription, updatedStatus } = data;
         const updateResult = await pool.query(
-          'UPDATE todos SET title = $1, description = $2, updated_at = NOW() WHERE id = $3 RETURNING *',
-          [updatedTitle, updatedDescription, todoId]
+          'UPDATE todos SET title = $1, description = $2, status = $3 WHERE id = $4 RETURNING *',
+          [updatedTitle, updatedDescription, updatedStatus, id]
         );
         return { statusCode: 200, body: JSON.stringify(updateResult.rows[0]) };
       }
 
       case 'DELETE': {
-        await pool.query('DELETE FROM todos WHERE id = $1', [todoId]);
-        return { statusCode: 204 };
-      }
-
-      case 'PATCH': {
-        if (event.path.endsWith('/complete')) {
-          const completeResult = await pool.query(
-            'UPDATE todos SET status = $1, updated_at = NOW() WHERE id = $2 RETURNING *',
-            ['completed', todoId]
-          );
-          return { statusCode: 200, body: JSON.stringify(completeResult.rows[0]) };
+        const toDoId = queryStringParameters.id;
+        if (toDoId) {
+          await pool.query('DELETE FROM todos WHERE id = $1', [toDoId]);
+          return { statusCode: 204, body: JSON.stringify({success: true}) };
+        } else {
+          return { statusCode: 404, body: JSON.stringify({success: false}) }
         }
-        break;
       }
 
       default:
