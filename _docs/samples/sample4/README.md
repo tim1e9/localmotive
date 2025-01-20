@@ -1,9 +1,11 @@
-# Localmotive - Local DB Support
+# Localmotive - TypeScript Support
 
 ## Overview
 
 The purpose of this sample is to show how to locally run a Lambda function which 
-makes use of a database. (In this case, the database is PostgreSQL.)
+is written in TypeScript. This sample is very similar to sample two. However, the
+codebase has been altered to more closely represent a typical TypeScript Lambda
+function.
 
 
 ## Prerequisites
@@ -23,19 +25,17 @@ To handle this, the `ANY` method type is used.
 
 ## Configuration
 
-The key to running this example is specified in the `config.json` file. Specifically, environment
-variables are defined to access the database. When the Lambda function is deployed to the cloud,
-the function will expect the exact same environment variables.
+This sample contains a special Visual Studio debug configuration. It demonstrates some
+special flags necessary to execute a TypeScript-based Lambda funciton.
+
+It is also valuable to inspect `package.json` and `tsconfig.json`. They include critical
+settings necessary to successfully execute the code.
 
 
 ## Running the Sample
 
-Build the todo application by creating a zip file out of it, and placing it in the
-appropriate `zips` folder. A sample command to do the build is as follows:
-
-```
-zip -r ../todo.zip . -x "*/.*"
-```
+This sample is run directly from the local filesystem. It's therefore not necessary
+to build the application into either a zip file or a container image.
 
 Ensure the `config.json` file is properly configured, and start localmotive.
 Next, from Bruno (or the equivalent), perform various calls to the back end to
