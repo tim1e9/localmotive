@@ -1,0 +1,495 @@
+{
+  "info": {
+    "name": "Localmotive",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "bruno",
+      "event": []
+    },
+    {
+      "name": "sample1",
+      "item": [
+        {
+          "name": "DEBUG Hot Dogs",
+          "event": [],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "auth": {
+              "type": "noauth"
+            },
+            "description": "",
+            "url": {
+              "raw": "http://localhost:3000/hotdogs",
+              "protocol": "http",
+              "host": [
+                "localhost:3000"
+              ],
+              "path": [
+                "hotdogs"
+              ],
+              "query": [],
+              "variable": []
+            }
+          }
+        },
+        {
+          "name": "Get Hotdogs",
+          "event": [],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "auth": {
+              "type": "noauth"
+            },
+            "description": "",
+            "url": {
+              "raw": "http://localhost:3000/hotdogfiles",
+              "protocol": "http",
+              "host": [
+                "localhost:3000"
+              ],
+              "path": [
+                "hotdogfiles"
+              ],
+              "query": [],
+              "variable": []
+            }
+          }
+        },
+        {
+          "name": "Lambda Echo",
+          "event": [],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "specialHeaderKeyOne",
+                "value": "specialHeaderValueOne",
+                "disabled": false,
+                "type": "default"
+              },
+              {
+                "key": "specialHeaderKeyTwo",
+                "value": "specialHeaderValueTwo",
+                "disabled": false,
+                "type": "default"
+              }
+            ],
+            "auth": {
+              "type": "noauth"
+            },
+            "description": "",
+            "url": {
+              "raw": "http://localhost:3000/echo?testParmOneKey=testParmOneValue",
+              "protocol": "http",
+              "host": [
+                "localhost:3000"
+              ],
+              "path": [
+                "echo"
+              ],
+              "query": [
+                {
+                  "key": "testParmOneKey",
+                  "value": "testParmOneValue"
+                }
+              ],
+              "variable": []
+            }
+          }
+        },
+        {
+          "name": "Say Hello",
+          "event": [],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "auth": {
+              "type": "noauth"
+            },
+            "description": "",
+            "url": {
+              "raw": "http://localhost:3000/hello?name=Jerry",
+              "protocol": "http",
+              "host": [
+                "localhost:3000"
+              ],
+              "path": [
+                "hello"
+              ],
+              "query": [
+                {
+                  "key": "name",
+                  "value": "Jerry"
+                }
+              ],
+              "variable": []
+            }
+          }
+        },
+        {
+          "name": "Get Hotdogs Not in Base Dir",
+          "event": [],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "auth": {
+              "type": "noauth"
+            },
+            "description": "",
+            "url": {
+              "raw": "http://localhost:3000/hotdogfiles/notrootdir",
+              "protocol": "http",
+              "host": [
+                "localhost:3000"
+              ],
+              "path": [
+                "hotdogfiles",
+                "notrootdir"
+              ],
+              "query": [],
+              "variable": []
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "sample2",
+      "item": [
+        {
+          "name": "Create Todo",
+          "event": [],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "auth": {
+              "type": "noauth"
+            },
+            "description": "",
+            "url": {
+              "raw": "http://localhost:3000/todo",
+              "protocol": "http",
+              "host": [
+                "localhost:3000"
+              ],
+              "path": [
+                "todo"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \"Pick up dinner\",\n  \"description\": \"I am hungry.\",\n  \"status\": \"new\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "Delete Todo",
+          "event": [],
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "auth": {
+              "type": "noauth"
+            },
+            "description": "",
+            "url": {
+              "raw": "http://localhost:3000/todo?id=22",
+              "protocol": "http",
+              "host": [
+                "localhost:3000"
+              ],
+              "path": [
+                "todo"
+              ],
+              "query": [
+                {
+                  "key": "id",
+                  "value": "22"
+                }
+              ],
+              "variable": []
+            }
+          }
+        },
+        {
+          "name": "Get all Todos",
+          "event": [],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "auth": {
+              "type": "noauth"
+            },
+            "description": "",
+            "url": {
+              "raw": "http://localhost:3000/todo",
+              "protocol": "http",
+              "host": [
+                "localhost:3000"
+              ],
+              "path": [
+                "todo"
+              ],
+              "query": [],
+              "variable": []
+            }
+          }
+        },
+        {
+          "name": "Update Todo",
+          "event": [],
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "auth": {
+              "type": "noauth"
+            },
+            "description": "",
+            "url": {
+              "raw": "http://localhost:3000/todo",
+              "protocol": "http",
+              "host": [
+                "localhost:3000"
+              ],
+              "path": [
+                "todo"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"id\": 20,\n  \"updatedTitle\": \"Pick up dinner\",\n  \"updatedDescription\": \"I am hungry.\",\n  \"updatedStatus\": \"done\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "sample3",
+      "item": [
+        {
+          "name": "Bulk Upload",
+          "event": [],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "auth": {
+              "type": "noauth"
+            },
+            "description": "",
+            "url": {
+              "raw": "http://localhost:3000/_admin/sendEvent/bulkUploadToDo",
+              "protocol": "http",
+              "host": [
+                "localhost:3000"
+              ],
+              "path": [
+                "_admin",
+                "sendEvent",
+                "bulkUploadToDo"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"Records\": [\n    {\n      \"eventVersion\": \"2.0\",\n      \"eventSource\": \"aws:s3\",\n      \"awsRegion\": \"us-east-1\",\n      \"eventTime\": \"1970-01-01T00:00:00.000Z\",\n      \"eventName\": \"ObjectCreated:Put\",\n      \"userIdentity\": {\n        \"principalId\": \"EXAMPLE\"\n      },\n      \"requestParameters\": {\n        \"sourceIPAddress\": \"127.0.0.1\"\n      },\n      \"responseElements\": {\n        \"x-amz-request-id\": \"EXAMPLE123456789\",\n        \"x-amz-id-2\": \"EXAMPLE123/5678abcdefghijklambdaisawesome/mnopqrstuvwxyzABCDEFGH\"\n      },\n      \"s3\": {\n        \"s3SchemaVersion\": \"1.0\",\n        \"configurationId\": \"testConfigRule\",\n        \"bucket\": {\n          \"name\": \"crowley1\",\n          \"ownerIdentity\": {\n            \"principalId\": \"EXAMPLE\"\n          },\n          \"arn\": \"arn:aws:s3:::amzn-s3-demo-bucket\"\n        },\n        \"object\": {\n          \"key\": \"myfolder/todos.csv\",\n          \"size\": 1024,\n          \"eTag\": \"0123456789abcdef0123456789abcdef\",\n          \"sequencer\": \"0A1B2C3D4E5F678901\"\n        }\n      }\n    }\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "Create Todo",
+          "event": [],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "auth": {
+              "type": "noauth"
+            },
+            "description": "",
+            "url": {
+              "raw": "http://localhost:3000/todo",
+              "protocol": "http",
+              "host": [
+                "localhost:3000"
+              ],
+              "path": [
+                "todo"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \"Pick up water\",\n  \"description\": \"I am thirsty.\",\n  \"status\": \"new\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "Delete Todo",
+          "event": [],
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "auth": {
+              "type": "noauth"
+            },
+            "description": "",
+            "url": {
+              "raw": "http://localhost:3000/todo/23",
+              "protocol": "http",
+              "host": [
+                "localhost:3000"
+              ],
+              "path": [
+                "todo",
+                "23"
+              ],
+              "query": [],
+              "variable": []
+            }
+          }
+        },
+        {
+          "name": "Get all Todos",
+          "event": [],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "auth": {
+              "type": "noauth"
+            },
+            "description": "",
+            "url": {
+              "raw": "http://localhost:3000/todo",
+              "protocol": "http",
+              "host": [
+                "localhost:3000"
+              ],
+              "path": [
+                "todo"
+              ],
+              "query": [],
+              "variable": []
+            }
+          }
+        },
+        {
+          "name": "Update Todo",
+          "event": [],
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "auth": {
+              "type": "noauth"
+            },
+            "description": "",
+            "url": {
+              "raw": "http://localhost:3000/todo/23",
+              "protocol": "http",
+              "host": [
+                "localhost:3000"
+              ],
+              "path": [
+                "todo",
+                "23"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"updatedTitle\": \"Pick up water\",\n  \"updatedDescription\": \"I am extra thirsty.\",\n  \"updatedStatus\": \"done\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "sample4",
+      "item": [
+        {
+          "name": "Get all Todos",
+          "event": [],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "auth": {
+              "type": "noauth"
+            },
+            "description": "",
+            "url": {
+              "raw": "http://localhost:3000/todo",
+              "protocol": "http",
+              "host": [
+                "localhost:3000"
+              ],
+              "path": [
+                "todo"
+              ],
+              "query": [],
+              "variable": []
+            }
+          }
+        },
+        {
+          "name": "TS Debug",
+          "event": [],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "auth": {
+              "type": "noauth"
+            },
+            "description": "",
+            "url": {
+              "raw": "http://localhost:3000/tododbug",
+              "protocol": "http",
+              "host": [
+                "localhost:3000"
+              ],
+              "path": [
+                "tododbug"
+              ],
+              "query": [],
+              "variable": []
+            }
+          }
+        }
+      ]
+    }
+  ],
+  "variable": []
+}

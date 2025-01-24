@@ -56,7 +56,7 @@ significant control over starting and stopping functions, and even how to manage
 logs.
 
 Localmotive supports the Docker REST API to manage these containers. It also supports a
-compatibility mode which allows other container management tools to work as well.
+compatibility mode which allows other container management clones to work as well.
 
 As of this writing, Localmotive has been tested with:
 - Docker Desktop

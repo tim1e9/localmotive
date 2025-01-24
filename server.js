@@ -15,6 +15,8 @@ app.use(express.json());
 const configFile = process.env.CONFIG_FILE;
 if (!configFile) {
   throw new Error(`Missing configuration file: (Set CONFIG_FILE in the environment)`);
+} else {
+  console.log(`Configuration file location: ${configFile}.`);
 }
 const config = await loadConfig(configFile)
 const ADMIN_PATH = config?.settings?.adminPathPrefix ? config.settings.adminPathPrefix : '/_admin';

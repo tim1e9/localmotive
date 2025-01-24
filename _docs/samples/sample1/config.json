@@ -51,6 +51,19 @@
       }
     },
     {
+      "path": "/hotdogfiles/notrootdir",
+      "method": "GET",
+      "function": {
+        "name": "getHotdogFilesNonRoot",
+        "type": "filesystem",
+        "rootDir": "./_docs/samples/sample1/hotdogs",
+        "entryPoint": "src/index2.handler",
+        "envVars": {},
+        "externalPort": 9000,
+        "internalPort": 8080  
+      }
+    },
+    {
       "path": "/hotdogs",
       "method": "GET",
       "function": {

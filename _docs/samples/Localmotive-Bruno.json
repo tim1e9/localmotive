@@ -3,236 +3,6 @@
   "version": "1",
   "items": [
     {
-      "type": "json",
-      "name": "bruno",
-      "seq": 1
-    },
-    {
-      "type": "folder",
-      "name": "sample3",
-      "items": [
-        {
-          "type": "http",
-          "name": "Bulk Upload",
-          "seq": 5,
-          "request": {
-            "url": "http://localhost:3000/_admin/sendEvent/bulkUploadToDo",
-            "method": "POST",
-            "headers": [],
-            "body": {
-              "mode": "json",
-              "json": "{\n  \"Records\": [\n    {\n      \"eventVersion\": \"2.0\",\n      \"eventSource\": \"aws:s3\",\n      \"awsRegion\": \"us-east-1\",\n      \"eventTime\": \"1970-01-01T00:00:00.000Z\",\n      \"eventName\": \"ObjectCreated:Put\",\n      \"userIdentity\": {\n        \"principalId\": \"EXAMPLE\"\n      },\n      \"requestParameters\": {\n        \"sourceIPAddress\": \"127.0.0.1\"\n      },\n      \"responseElements\": {\n        \"x-amz-request-id\": \"EXAMPLE123456789\",\n        \"x-amz-id-2\": \"EXAMPLE123/5678abcdefghijklambdaisawesome/mnopqrstuvwxyzABCDEFGH\"\n      },\n      \"s3\": {\n        \"s3SchemaVersion\": \"1.0\",\n        \"configurationId\": \"testConfigRule\",\n        \"bucket\": {\n          \"name\": \"crowley1\",\n          \"ownerIdentity\": {\n            \"principalId\": \"EXAMPLE\"\n          },\n          \"arn\": \"arn:aws:s3:::amzn-s3-demo-bucket\"\n        },\n        \"object\": {\n          \"key\": \"myfolder/todos.csv\",\n          \"size\": 1024,\n          \"eTag\": \"0123456789abcdef0123456789abcdef\",\n          \"sequencer\": \"0A1B2C3D4E5F678901\"\n        }\n      }\n    }\n  ]\n}",
-              "formUrlEncoded": [],
-              "multipartForm": []
-            },
-            "auth": {
-              "mode": "none",
-              "basic": {
-                "username": "",
-                "password": ""
-              },
-              "bearer": {
-                "token": ""
-              }
-            },
-            "script": {},
-            "vars": {},
-            "assertions": [],
-            "tests": "",
-            "query": []
-          }
-        },
-        {
-          "type": "http",
-          "name": "Create Todo",
-          "seq": 1,
-          "request": {
-            "url": "http://localhost:3000/todo",
-            "method": "POST",
-            "headers": [],
-            "body": {
-              "mode": "json",
-              "json": "{\n  \"title\": \"Pick up water\",\n  \"description\": \"I am thirsty.\",\n  \"status\": \"new\"\n}",
-              "formUrlEncoded": [],
-              "multipartForm": []
-            },
-            "auth": {
-              "mode": "none",
-              "basic": {
-                "username": "",
-                "password": ""
-              },
-              "bearer": {
-                "token": ""
-              }
-            },
-            "script": {},
-            "vars": {},
-            "assertions": [],
-            "tests": "",
-            "query": []
-          }
-        },
-        {
-          "type": "http",
-          "name": "Delete Todo",
-          "seq": 4,
-          "request": {
-            "url": "http://localhost:3000/todo/23",
-            "method": "DELETE",
-            "headers": [],
-            "body": {
-              "mode": "none",
-              "formUrlEncoded": [],
-              "multipartForm": []
-            },
-            "auth": {
-              "mode": "none",
-              "basic": {
-                "username": "",
-                "password": ""
-              },
-              "bearer": {
-                "token": ""
-              }
-            },
-            "script": {},
-            "vars": {},
-            "assertions": [],
-            "tests": "",
-            "query": []
-          }
-        },
-        {
-          "type": "http",
-          "name": "Get all Todos",
-          "seq": 2,
-          "request": {
-            "url": "http://localhost:3000/todo",
-            "method": "GET",
-            "headers": [],
-            "body": {
-              "mode": "none",
-              "formUrlEncoded": [],
-              "multipartForm": []
-            },
-            "auth": {
-              "mode": "none",
-              "basic": {
-                "username": "",
-                "password": ""
-              },
-              "bearer": {
-                "token": ""
-              }
-            },
-            "script": {},
-            "vars": {},
-            "assertions": [],
-            "tests": "",
-            "query": []
-          }
-        },
-        {
-          "type": "http",
-          "name": "Update Todo",
-          "seq": 3,
-          "request": {
-            "url": "http://localhost:3000/todo/23",
-            "method": "PUT",
-            "headers": [],
-            "body": {
-              "mode": "json",
-              "json": "{\n  \"updatedTitle\": \"Pick up water\",\n  \"updatedDescription\": \"I am extra thirsty.\",\n  \"updatedStatus\": \"done\"\n}",
-              "formUrlEncoded": [],
-              "multipartForm": []
-            },
-            "auth": {
-              "mode": "none",
-              "basic": {
-                "username": "",
-                "password": ""
-              },
-              "bearer": {
-                "token": ""
-              }
-            },
-            "script": {},
-            "vars": {},
-            "assertions": [],
-            "tests": "",
-            "query": []
-          }
-        }
-      ]
-    },
-    {
-      "type": "folder",
-      "name": "sample4",
-      "items": [
-        {
-          "type": "http",
-          "name": "TS Debug",
-          "seq": 1,
-          "request": {
-            "url": "http://localhost:3000/tododbug",
-            "method": "GET",
-            "headers": [],
-            "body": {
-              "mode": "none",
-              "formUrlEncoded": [],
-              "multipartForm": []
-            },
-            "auth": {
-              "mode": "none",
-              "basic": {
-                "username": "",
-                "password": ""
-              },
-              "bearer": {
-                "token": ""
-              }
-            },
-            "script": {},
-            "vars": {},
-            "assertions": [],
-            "tests": "",
-            "query": []
-          }
-        },
-        {
-          "type": "http",
-          "name": "Get all Todos",
-          "seq": 2,
-          "request": {
-            "url": "http://localhost:3000/todo",
-            "method": "GET",
-            "headers": [],
-            "body": {
-              "mode": "none",
-              "formUrlEncoded": [],
-              "multipartForm": []
-            },
-            "auth": {
-              "mode": "none",
-              "basic": {
-                "username": "",
-                "password": ""
-              },
-              "bearer": {
-                "token": ""
-              }
-            },
-            "script": {},
-            "vars": {},
-            "assertions": [],
-            "tests": "",
-            "query": []
-          }
-        }
-      ]
-    },
-    {
       "type": "folder",
       "name": "sample1",
       "items": [
@@ -244,26 +14,20 @@
             "url": "http://localhost:3000/hotdogs",
             "method": "GET",
             "headers": [],
+            "params": [],
             "body": {
               "mode": "none",
               "formUrlEncoded": [],
               "multipartForm": []
             },
-            "auth": {
-              "mode": "none",
-              "basic": {
-                "username": "",
-                "password": ""
-              },
-              "bearer": {
-                "token": ""
-              }
-            },
             "script": {},
             "vars": {},
             "assertions": [],
             "tests": "",
-            "query": []
+            "docs": "",
+            "auth": {
+              "mode": "none"
+            }
           }
         },
         {
@@ -274,26 +38,20 @@
             "url": "http://localhost:3000/hotdogfiles",
             "method": "GET",
             "headers": [],
+            "params": [],
             "body": {
               "mode": "none",
               "formUrlEncoded": [],
               "multipartForm": []
             },
-            "auth": {
-              "mode": "none",
-              "basic": {
-                "username": "",
-                "password": ""
-              },
-              "bearer": {
-                "token": ""
-              }
-            },
             "script": {},
             "vars": {},
             "assertions": [],
             "tests": "",
-            "query": []
+            "docs": "",
+            "auth": {
+              "mode": "none"
+            }
           }
         },
         {
@@ -315,32 +73,27 @@
                 "enabled": true
               }
             ],
+            "params": [
+              {
+                "name": "testParmOneKey",
+                "value": "testParmOneValue",
+                "type": "query",
+                "enabled": true
+              }
+            ],
             "body": {
               "mode": "none",
               "formUrlEncoded": [],
               "multipartForm": []
             },
-            "auth": {
-              "mode": "none",
-              "basic": {
-                "username": "",
-                "password": ""
-              },
-              "bearer": {
-                "token": ""
-              }
-            },
             "script": {},
             "vars": {},
             "assertions": [],
             "tests": "",
-            "query": [
-              {
-                "name": "testParmOneKey",
-                "value": "testParmOneValue",
-                "enabled": true
-              }
-            ]
+            "docs": "",
+            "auth": {
+              "mode": "none"
+            }
           }
         },
         {
@@ -351,32 +104,51 @@
             "url": "http://localhost:3000/hello?name=Jerry",
             "method": "GET",
             "headers": [],
+            "params": [
+              {
+                "name": "name",
+                "value": "Jerry",
+                "type": "query",
+                "enabled": true
+              }
+            ],
             "body": {
               "mode": "none",
               "formUrlEncoded": [],
               "multipartForm": []
             },
+            "script": {},
+            "vars": {},
+            "assertions": [],
+            "tests": "",
+            "docs": "",
             "auth": {
+              "mode": "none"
+            }
+          }
+        },
+        {
+          "type": "http",
+          "name": "Get Hotdogs Not in Base Dir",
+          "seq": 5,
+          "request": {
+            "url": "http://localhost:3000/hotdogfiles/notrootdir",
+            "method": "GET",
+            "headers": [],
+            "params": [],
+            "body": {
               "mode": "none",
-              "basic": {
-                "username": "",
-                "password": ""
-              },
-              "bearer": {
-                "token": ""
-              }
+              "formUrlEncoded": [],
+              "multipartForm": []
             },
             "script": {},
             "vars": {},
             "assertions": [],
             "tests": "",
-            "query": [
-              {
-                "name": "name",
-                "value": "Jerry",
-                "enabled": true
-              }
-            ]
+            "docs": "",
+            "auth": {
+              "mode": "none"
+            }
           }
         }
       ]
@@ -387,100 +159,58 @@
       "items": [
         {
           "type": "http",
-          "name": "Delete Todo",
-          "seq": 4,
-          "request": {
-            "url": "http://localhost:3000/todo?id=22",
-            "method": "DELETE",
-            "headers": [],
-            "body": {
-              "mode": "none",
-              "formUrlEncoded": [],
-              "multipartForm": []
-            },
-            "auth": {
-              "mode": "none",
-              "basic": {
-                "username": "",
-                "password": ""
-              },
-              "bearer": {
-                "token": ""
-              }
-            },
-            "script": {},
-            "vars": {},
-            "assertions": [],
-            "tests": "",
-            "query": [
-              {
-                "name": "id",
-                "value": "22",
-                "enabled": true
-              }
-            ]
-          }
-        },
-        {
-          "type": "http",
           "name": "Create Todo",
           "seq": 1,
           "request": {
             "url": "http://localhost:3000/todo",
             "method": "POST",
             "headers": [],
+            "params": [],
             "body": {
               "mode": "json",
               "json": "{\n  \"title\": \"Pick up dinner\",\n  \"description\": \"I am hungry.\",\n  \"status\": \"new\"\n}",
               "formUrlEncoded": [],
               "multipartForm": []
             },
-            "auth": {
-              "mode": "none",
-              "basic": {
-                "username": "",
-                "password": ""
-              },
-              "bearer": {
-                "token": ""
-              }
-            },
             "script": {},
             "vars": {},
             "assertions": [],
             "tests": "",
-            "query": []
+            "docs": "",
+            "auth": {
+              "mode": "none"
+            }
           }
         },
         {
           "type": "http",
-          "name": "Update Todo",
-          "seq": 3,
+          "name": "Delete Todo",
+          "seq": 4,
           "request": {
-            "url": "http://localhost:3000/todo",
-            "method": "PUT",
+            "url": "http://localhost:3000/todo?id=22",
+            "method": "DELETE",
             "headers": [],
+            "params": [
+              {
+                "name": "id",
+                "value": "22",
+                "type": "query",
+                "enabled": true
+              }
+            ],
             "body": {
-              "mode": "json",
-              "json": "{\n  \"id\": 20,\n  \"updatedTitle\": \"Pick up dinner\",\n  \"updatedDescription\": \"I am hungry.\",\n  \"updatedStatus\": \"done\"\n}",
+              "mode": "none",
               "formUrlEncoded": [],
               "multipartForm": []
-            },
-            "auth": {
-              "mode": "none",
-              "basic": {
-                "username": "",
-                "password": ""
-              },
-              "bearer": {
-                "token": ""
-              }
             },
             "script": {},
             "vars": {},
             "assertions": [],
             "tests": "",
-            "query": []
+            "docs": "",
+            "auth": {
+              "mode": "none"
+            }
           }
         },
         {
@@ -491,30 +221,241 @@
             "url": "http://localhost:3000/todo",
             "method": "GET",
             "headers": [],
+            "params": [],
             "body": {
               "mode": "none",
               "formUrlEncoded": [],
               "multipartForm": []
             },
+            "script": {},
+            "vars": {},
+            "assertions": [],
+            "tests": "",
+            "docs": "",
             "auth": {
-              "mode": "none",
-              "basic": {
-                "username": "",
-                "password": ""
-              },
-              "bearer": {
-                "token": ""
-              }
+              "mode": "none"
+            }
+          }
+        },
+        {
+          "type": "http",
+          "name": "Update Todo",
+          "seq": 3,
+          "request": {
+            "url": "http://localhost:3000/todo",
+            "method": "PUT",
+            "headers": [],
+            "params": [],
+            "body": {
+              "mode": "json",
+              "json": "{\n  \"id\": 20,\n  \"updatedTitle\": \"Pick up dinner\",\n  \"updatedDescription\": \"I am hungry.\",\n  \"updatedStatus\": \"done\"\n}",
+              "formUrlEncoded": [],
+              "multipartForm": []
             },
             "script": {},
             "vars": {},
             "assertions": [],
             "tests": "",
-            "query": []
+            "docs": "",
+            "auth": {
+              "mode": "none"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "type": "folder",
+      "name": "sample3",
+      "items": [
+        {
+          "type": "http",
+          "name": "Bulk Upload",
+          "seq": 5,
+          "request": {
+            "url": "http://localhost:3000/_admin/sendEvent/bulkUploadToDo",
+            "method": "POST",
+            "headers": [],
+            "params": [],
+            "body": {
+              "mode": "json",
+              "json": "{\n  \"Records\": [\n    {\n      \"eventVersion\": \"2.0\",\n      \"eventSource\": \"aws:s3\",\n      \"awsRegion\": \"us-east-1\",\n      \"eventTime\": \"1970-01-01T00:00:00.000Z\",\n      \"eventName\": \"ObjectCreated:Put\",\n      \"userIdentity\": {\n        \"principalId\": \"EXAMPLE\"\n      },\n      \"requestParameters\": {\n        \"sourceIPAddress\": \"127.0.0.1\"\n      },\n      \"responseElements\": {\n        \"x-amz-request-id\": \"EXAMPLE123456789\",\n        \"x-amz-id-2\": \"EXAMPLE123/5678abcdefghijklambdaisawesome/mnopqrstuvwxyzABCDEFGH\"\n      },\n      \"s3\": {\n        \"s3SchemaVersion\": \"1.0\",\n        \"configurationId\": \"testConfigRule\",\n        \"bucket\": {\n          \"name\": \"crowley1\",\n          \"ownerIdentity\": {\n            \"principalId\": \"EXAMPLE\"\n          },\n          \"arn\": \"arn:aws:s3:::amzn-s3-demo-bucket\"\n        },\n        \"object\": {\n          \"key\": \"myfolder/todos.csv\",\n          \"size\": 1024,\n          \"eTag\": \"0123456789abcdef0123456789abcdef\",\n          \"sequencer\": \"0A1B2C3D4E5F678901\"\n        }\n      }\n    }\n  ]\n}",
+              "formUrlEncoded": [],
+              "multipartForm": []
+            },
+            "script": {},
+            "vars": {},
+            "assertions": [],
+            "tests": "",
+            "docs": "",
+            "auth": {
+              "mode": "none"
+            }
+          }
+        },
+        {
+          "type": "http",
+          "name": "Create Todo",
+          "seq": 1,
+          "request": {
+            "url": "http://localhost:3000/todo",
+            "method": "POST",
+            "headers": [],
+            "params": [],
+            "body": {
+              "mode": "json",
+              "json": "{\n  \"title\": \"Pick up water\",\n  \"description\": \"I am thirsty.\",\n  \"status\": \"new\"\n}",
+              "formUrlEncoded": [],
+              "multipartForm": []
+            },
+            "script": {},
+            "vars": {},
+            "assertions": [],
+            "tests": "",
+            "docs": "",
+            "auth": {
+              "mode": "none"
+            }
+          }
+        },
+        {
+          "type": "http",
+          "name": "Delete Todo",
+          "seq": 4,
+          "request": {
+            "url": "http://localhost:3000/todo/23",
+            "method": "DELETE",
+            "headers": [],
+            "params": [],
+            "body": {
+              "mode": "none",
+              "formUrlEncoded": [],
+              "multipartForm": []
+            },
+            "script": {},
+            "vars": {},
+            "assertions": [],
+            "tests": "",
+            "docs": "",
+            "auth": {
+              "mode": "none"
+            }
+          }
+        },
+        {
+          "type": "http",
+          "name": "Get all Todos",
+          "seq": 2,
+          "request": {
+            "url": "http://localhost:3000/todo",
+            "method": "GET",
+            "headers": [],
+            "params": [],
+            "body": {
+              "mode": "none",
+              "formUrlEncoded": [],
+              "multipartForm": []
+            },
+            "script": {},
+            "vars": {},
+            "assertions": [],
+            "tests": "",
+            "docs": "",
+            "auth": {
+              "mode": "none"
+            }
+          }
+        },
+        {
+          "type": "http",
+          "name": "Update Todo",
+          "seq": 3,
+          "request": {
+            "url": "http://localhost:3000/todo/23",
+            "method": "PUT",
+            "headers": [],
+            "params": [],
+            "body": {
+              "mode": "json",
+              "json": "{\n  \"updatedTitle\": \"Pick up water\",\n  \"updatedDescription\": \"I am extra thirsty.\",\n  \"updatedStatus\": \"done\"\n}",
+              "formUrlEncoded": [],
+              "multipartForm": []
+            },
+            "script": {},
+            "vars": {},
+            "assertions": [],
+            "tests": "",
+            "docs": "",
+            "auth": {
+              "mode": "none"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "type": "folder",
+      "name": "sample4",
+      "items": [
+        {
+          "type": "http",
+          "name": "Get all Todos",
+          "seq": 2,
+          "request": {
+            "url": "http://localhost:3000/todo",
+            "method": "GET",
+            "headers": [],
+            "params": [],
+            "body": {
+              "mode": "none",
+              "formUrlEncoded": [],
+              "multipartForm": []
+            },
+            "script": {},
+            "vars": {},
+            "assertions": [],
+            "tests": "",
+            "docs": "",
+            "auth": {
+              "mode": "none"
+            }
+          }
+        },
+        {
+          "type": "http",
+          "name": "TS Debug",
+          "seq": 1,
+          "request": {
+            "url": "http://localhost:3000/tododbug",
+            "method": "GET",
+            "headers": [],
+            "params": [],
+            "body": {
+              "mode": "none",
+              "formUrlEncoded": [],
+              "multipartForm": []
+            },
+            "script": {},
+            "vars": {},
+            "assertions": [],
+            "tests": "",
+            "docs": "",
+            "auth": {
+              "mode": "none"
+            }
           }
         }
       ]
     }
   ],
-  "environments": []
+  "environments": [],
+  "brunoConfig": {
+    "version": "1",
+    "name": "Localmotive",
+    "type": "collection",
+    "ignore": [
+      "node_modules",
+      ".git"
+    ]
+  }
 }
