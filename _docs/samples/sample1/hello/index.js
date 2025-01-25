@@ -10,6 +10,4 @@ exports.handler = async (event) => {
     body: JSON.stringify({result: reply}),
   };
   return response;
-
-  return response;
 };

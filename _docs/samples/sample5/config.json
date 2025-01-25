@@ -1,0 +1,67 @@
+{
+  "settings": {
+    "adminPathPrefix": "/_admin",
+    "containerLabelText": "qwerty",
+    "baseImage": "public.ecr.aws/lambda/python:latest",
+    "zipSourceDir": "/Users/tdc/dev/local/zips/",
+    "zipTargetDir": "/Users/tdc/dev/local/zipruns",
+    "includeCloudVars": false,
+    "envVars": {
+      "curenv": "localpy"
+    }
+  },
+  "endpoints": [
+    {
+      "path": "/hello-py",
+      "method": "GET",
+      "function": {
+        "name": "hello-py",
+        "type": "zip",
+        "file": "hello-py.zip",
+        "entryPoint": "lambda_function.lambda_handler",
+        "envVars": {
+          "extraMessage": "Have a great day from Python!"
+        },
+        "internalPort": 8080
+      } 
+    },
+    {
+      "path": "/echo-py",
+      "method": "POST",
+      "function": {
+        "name": "echo-py",
+        "type": "image",
+        "envVars": {},
+        "imageName": "echo-python-image:latest",
+        "externalPort": 9000,
+        "internalPort": 8080  
+      }
+    },
+    {
+      "path": "/hotdogfiles-py",
+      "method": "GET",
+      "function": {
+        "name": "getHotdogFiles-py",
+        "type": "filesystem",
+        "rootDir": "./_docs/samples/sample5/hotdogs-py",
+        "entryPoint": "lambda_function.lambda_handler",
+        "envVars": {},
+        "externalPort": 9000,
+        "internalPort": 8080  
+      }
+    },
+    {
+      "path": "/hotdogfiles/notrootdir-py",
+      "method": "GET",
+      "function": {
+        "name": "getHotdogFilesNonRoot-py",
+        "type": "filesystem",
+        "rootDir": "./_docs/samples/sample5/hotdogs-py",
+        "entryPoint": "src/lambda_function2.lambda_handler",
+        "envVars": {},
+        "externalPort": 9000,
+        "internalPort": 8080  
+      }
+    }
+  ]
+}
