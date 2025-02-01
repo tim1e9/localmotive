@@ -62,6 +62,17 @@
         "externalPort": 9000,
         "internalPort": 8080  
       }
+    },
+    {
+      "path": "/hotdogs-py",
+      "method": "GET",
+      "function": {
+        "name": "getHotdogs-py",
+        "type": "lambda",
+        "host": "localhost",
+        "externalPort": 9000,
+        "internalPort": 8080  
+      } 
     }
   ]
 }
