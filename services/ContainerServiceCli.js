@@ -2,8 +2,10 @@
 import { exec } from 'child_process';
 import { promisify } from 'util';
 
-const dockerCmd = process.env.DOCKER_CMD ? process.env.DOCKER_CMD : 'docker';
-console.log(`CLI docker command (or equivalent): ${dockerCmd}`);
+const containerManager = process.env.CONTAINER_MANAGER ? process.env.CONTAINER_MANAGER : "docker";
+
+const cliCmd = process.env.CLI_CMD ? process.env.CLI_CMD : 'docker';
+console.log(`CLI docker command (or equivalent): ${cliCmd}`);
 
 const execPromise = promisify(exec);
 
@@ -42,7 +44,7 @@ const getPortsFromString = (rawString) => {
 
 const getAllContainers = async () => {
   try {
-    const resp = await runCliCommandAndGetOutput(`${dockerCmd} ps --format json --no-trunc`, 'json');
+    const resp = await runCliCommandAndGetOutput(`${cliCmd} ps --format json --no-trunc`, 'json');
     // Key all containers by their name
     const containers = {};
     for (const entry of resp) {
@@ -87,10 +89,14 @@ const getContainerConfig = (containerName, containerImage, entryPoint, localDir,
   const mapLocal = localDir ? `-v ${localDir}:/var/task` : '';
   const ep = entryPoint ? entryPoint : '';
 
-  const containerConfig = `${dockerCmd} run -d --name ${containerName} ${envString}`
+  const containerConfig = `${cliCmd} run -d --name ${containerName} ${envString}`
   + ` --label localmotive=${containerLabelText} ${mapLocal} -p ${externalPort}:${internalPort} ${containerImage} ${ep}`;
   console.log(containerConfig);
   return containerConfig;
+}
+
+const pauseToLaunch = async (durationInSeconds) => {
+  await new Promise(resolve => setTimeout(resolve, durationInSeconds * 1000));
 }
 
 const launchContainer = async (containerName, containerConfig) => {
@@ -98,6 +104,12 @@ const launchContainer = async (containerName, containerConfig) => {
 
     const response = await runCliCommandAndGetOutput(containerConfig, 'text');
     console.log('Container created:', response);
+
+    // Some container managers don't return until the container is running
+    // Others return immediately. If that's the case, wait a little bit...
+    if (containerManager == "finch") {
+      await pauseToLaunch(5);
+    }
 
     return {
       name: containerName,
@@ -132,7 +144,7 @@ const destroyAllContainers = async () => {
 
 const destroyContainer = async (containerName) => {
   // Stop the container. (All containers should have --rm, so stop will also remove them)
-  const response = await runCliCommandAndGetOutput(`${dockerCmd} rm -f ${containerName}`);
+  const response = await runCliCommandAndGetOutput(`${cliCmd} rm -f ${containerName}`);
   console.log(`Container destroyed: ${containerName}`, response);
 };
 

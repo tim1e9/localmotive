@@ -32,6 +32,30 @@
         },
         {
           "type": "http",
+          "name": "Get Hotdogs Not in Base Dir",
+          "seq": 5,
+          "request": {
+            "url": "http://localhost:3000/hotdogfiles/notrootdir",
+            "method": "GET",
+            "headers": [],
+            "params": [],
+            "body": {
+              "mode": "none",
+              "formUrlEncoded": [],
+              "multipartForm": []
+            },
+            "script": {},
+            "vars": {},
+            "assertions": [],
+            "tests": "",
+            "docs": "",
+            "auth": {
+              "mode": "none"
+            }
+          }
+        },
+        {
+          "type": "http",
           "name": "Get Hotdogs",
           "seq": 3,
           "request": {
@@ -112,30 +136,6 @@
                 "enabled": true
               }
             ],
-            "body": {
-              "mode": "none",
-              "formUrlEncoded": [],
-              "multipartForm": []
-            },
-            "script": {},
-            "vars": {},
-            "assertions": [],
-            "tests": "",
-            "docs": "",
-            "auth": {
-              "mode": "none"
-            }
-          }
-        },
-        {
-          "type": "http",
-          "name": "Get Hotdogs Not in Base Dir",
-          "seq": 5,
-          "request": {
-            "url": "http://localhost:3000/hotdogfiles/notrootdir",
-            "method": "GET",
-            "headers": [],
-            "params": [],
             "body": {
               "mode": "none",
               "formUrlEncoded": [],
@@ -427,6 +427,157 @@
           "seq": 1,
           "request": {
             "url": "http://localhost:3000/tododbug",
+            "method": "GET",
+            "headers": [],
+            "params": [],
+            "body": {
+              "mode": "none",
+              "formUrlEncoded": [],
+              "multipartForm": []
+            },
+            "script": {},
+            "vars": {},
+            "assertions": [],
+            "tests": "",
+            "docs": "",
+            "auth": {
+              "mode": "none"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "type": "folder",
+      "name": "sample5",
+      "items": [
+        {
+          "type": "http",
+          "name": "Python Echo",
+          "seq": 2,
+          "request": {
+            "url": "http://localhost:3000/echo-py?testParmOneKey=testParmOneValue",
+            "method": "POST",
+            "headers": [
+              {
+                "name": "specialheaderkeyone",
+                "value": "specialHeaderValueOne",
+                "enabled": true
+              },
+              {
+                "name": "specialheaderkeytwo",
+                "value": "specialHeaderValueTwo",
+                "enabled": true
+              }
+            ],
+            "params": [
+              {
+                "name": "testParmOneKey",
+                "value": "testParmOneValue",
+                "type": "query",
+                "enabled": true
+              }
+            ],
+            "body": {
+              "mode": "none",
+              "formUrlEncoded": [],
+              "multipartForm": []
+            },
+            "script": {},
+            "vars": {},
+            "assertions": [],
+            "tests": "",
+            "docs": "",
+            "auth": {
+              "mode": "none"
+            }
+          }
+        },
+        {
+          "type": "http",
+          "name": "Python Hot Dogs Not in Base directory",
+          "seq": 4,
+          "request": {
+            "url": "http://localhost:3000/hotdogfiles/notrootdir-py",
+            "method": "GET",
+            "headers": [],
+            "params": [],
+            "body": {
+              "mode": "none",
+              "formUrlEncoded": [],
+              "multipartForm": []
+            },
+            "script": {},
+            "vars": {},
+            "assertions": [],
+            "tests": "",
+            "docs": "",
+            "auth": {
+              "mode": "none"
+            }
+          }
+        },
+        {
+          "type": "http",
+          "name": "Python Say Hello",
+          "seq": 1,
+          "request": {
+            "url": "http://localhost:3000/hello-py?name=Rick",
+            "method": "GET",
+            "headers": [],
+            "params": [
+              {
+                "name": "name",
+                "value": "Rick",
+                "type": "query",
+                "enabled": true
+              }
+            ],
+            "body": {
+              "mode": "none",
+              "formUrlEncoded": [],
+              "multipartForm": []
+            },
+            "script": {},
+            "vars": {},
+            "assertions": [],
+            "tests": "",
+            "docs": "",
+            "auth": {
+              "mode": "none"
+            }
+          }
+        },
+        {
+          "type": "http",
+          "name": "Python Hot Dogs",
+          "seq": 3,
+          "request": {
+            "url": "http://localhost:3000/hotdogfiles-py",
+            "method": "GET",
+            "headers": [],
+            "params": [],
+            "body": {
+              "mode": "none",
+              "formUrlEncoded": [],
+              "multipartForm": []
+            },
+            "script": {},
+            "vars": {},
+            "assertions": [],
+            "tests": "",
+            "docs": "",
+            "auth": {
+              "mode": "none"
+            }
+          }
+        },
+        {
+          "type": "http",
+          "name": "DEBUG Hot Dogs Python",
+          "seq": 5,
+          "request": {
+            "url": "http://localhost:3000/hotdogs-py",
             "method": "GET",
             "headers": [],
             "params": [],

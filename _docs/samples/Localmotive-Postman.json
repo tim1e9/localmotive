@@ -36,6 +36,31 @@
           }
         },
         {
+          "name": "Get Hotdogs Not in Base Dir",
+          "event": [],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "auth": {
+              "type": "noauth"
+            },
+            "description": "",
+            "url": {
+              "raw": "http://localhost:3000/hotdogfiles/notrootdir",
+              "protocol": "http",
+              "host": [
+                "localhost:3000"
+              ],
+              "path": [
+                "hotdogfiles",
+                "notrootdir"
+              ],
+              "query": [],
+              "variable": []
+            }
+          }
+        },
+        {
           "name": "Get Hotdogs",
           "event": [],
           "request": {
@@ -126,31 +151,6 @@
                   "value": "Jerry"
                 }
               ],
-              "variable": []
-            }
-          }
-        },
-        {
-          "name": "Get Hotdogs Not in Base Dir",
-          "event": [],
-          "request": {
-            "method": "GET",
-            "header": [],
-            "auth": {
-              "type": "noauth"
-            },
-            "description": "",
-            "url": {
-              "raw": "http://localhost:3000/hotdogfiles/notrootdir",
-              "protocol": "http",
-              "host": [
-                "localhost:3000"
-              ],
-              "path": [
-                "hotdogfiles",
-                "notrootdir"
-              ],
-              "query": [],
               "variable": []
             }
           }
@@ -482,6 +482,155 @@
               ],
               "path": [
                 "tododbug"
+              ],
+              "query": [],
+              "variable": []
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "sample5",
+      "item": [
+        {
+          "name": "Python Echo",
+          "event": [],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "specialheaderkeyone",
+                "value": "specialHeaderValueOne",
+                "disabled": false,
+                "type": "default"
+              },
+              {
+                "key": "specialheaderkeytwo",
+                "value": "specialHeaderValueTwo",
+                "disabled": false,
+                "type": "default"
+              }
+            ],
+            "auth": {
+              "type": "noauth"
+            },
+            "description": "",
+            "url": {
+              "raw": "http://localhost:3000/echo-py?testParmOneKey=testParmOneValue",
+              "protocol": "http",
+              "host": [
+                "localhost:3000"
+              ],
+              "path": [
+                "echo-py"
+              ],
+              "query": [
+                {
+                  "key": "testParmOneKey",
+                  "value": "testParmOneValue"
+                }
+              ],
+              "variable": []
+            }
+          }
+        },
+        {
+          "name": "Python Hot Dogs Not in Base directory",
+          "event": [],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "auth": {
+              "type": "noauth"
+            },
+            "description": "",
+            "url": {
+              "raw": "http://localhost:3000/hotdogfiles/notrootdir-py",
+              "protocol": "http",
+              "host": [
+                "localhost:3000"
+              ],
+              "path": [
+                "hotdogfiles",
+                "notrootdir-py"
+              ],
+              "query": [],
+              "variable": []
+            }
+          }
+        },
+        {
+          "name": "Python Say Hello",
+          "event": [],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "auth": {
+              "type": "noauth"
+            },
+            "description": "",
+            "url": {
+              "raw": "http://localhost:3000/hello-py?name=Rick",
+              "protocol": "http",
+              "host": [
+                "localhost:3000"
+              ],
+              "path": [
+                "hello-py"
+              ],
+              "query": [
+                {
+                  "key": "name",
+                  "value": "Rick"
+                }
+              ],
+              "variable": []
+            }
+          }
+        },
+        {
+          "name": "Python Hot Dogs",
+          "event": [],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "auth": {
+              "type": "noauth"
+            },
+            "description": "",
+            "url": {
+              "raw": "http://localhost:3000/hotdogfiles-py",
+              "protocol": "http",
+              "host": [
+                "localhost:3000"
+              ],
+              "path": [
+                "hotdogfiles-py"
+              ],
+              "query": [],
+              "variable": []
+            }
+          }
+        },
+        {
+          "name": "DEBUG Hot Dogs Python",
+          "event": [],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "auth": {
+              "type": "noauth"
+            },
+            "description": "",
+            "url": {
+              "raw": "http://localhost:3000/hotdogs-py",
+              "protocol": "http",
+              "host": [
+                "localhost:3000"
+              ],
+              "path": [
+                "hotdogs-py"
               ],
               "query": [],
               "variable": []
