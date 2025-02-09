@@ -6,7 +6,7 @@ if (!["docker", "finch"].includes(containerManager)) {
 }
 
 if (containerManager == 'cli' || containerManager == 'finch') {
-  console.log("Using the 'cli' container service.");
+  console.log(`Using the 'cli' container service. CLI command: ${process.env.CLI_CMD}`);
   cs = await import('./ContainerServiceCli.js');
 } else if (containerManager == 'docker') {
   console.log("Using the Docker REST container service");
