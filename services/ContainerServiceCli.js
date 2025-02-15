@@ -47,7 +47,7 @@ const parsePsContent = (psResponse) => {
   if (containerManager == 'podman') {
     // Key all containers by their name
     const containers = {};
-    for (const entry of resp) {
+    for (const entry of psResponse) {
       const key = entry.Names[0];
       const labels = entry.Labels;
       if (labels && labels.localmotive && labels.localmotive == containerLabelText) {
@@ -58,7 +58,7 @@ const parsePsContent = (psResponse) => {
           image: entry.Image,
           name: key,
           mounts: entry.Mounts,
-          ports: entry.Ports[0].host_port,
+          ports: entry.Ports[0].container_port,
           state: entry.State,
           externalPort: externalPort,
           labels: labels
@@ -70,7 +70,7 @@ const parsePsContent = (psResponse) => {
   } else {
     // Key all containers by their name
     const containers = {};
-    for (const entry of resp) {
+    for (const entry of psResponse) {
       const key = entry.Names;
       const labels = splitLabels(entry.Labels);
       if (labels && labels.localmotive && labels.localmotive == containerLabelText) {
@@ -186,11 +186,17 @@ const runCliCommandAndGetOutput = async (cmd, format) => {
     throw new Error(stderr);
   }
   if (format == 'json') {
-    // JSON Output from the CLI... is not valid JSON. Um, ok.
-    const entries = stdout.trim().split('\n');
-    const responseString = `[${entries.join(',')}]`;
-    const response = JSON.parse(responseString);
-    return response;
+    if (containerManager == "podman") {
+      const entries = stdout.trim();
+      const response = JSON.parse(entries);
+      return response;
+    } else {
+      // JSON Output from the CLI... is not valid JSON. Um, ok.
+      const entries = stdout.trim().split('\n');
+      const responseString = `[${entries.join(',')}]`;
+      const response = JSON.parse(responseString);
+      return response;
+    }
   } else {
     const response = stdout.trim();
     return { id : response };
