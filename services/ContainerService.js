@@ -1,11 +1,11 @@
 const containerManager = process.env.CONTAINER_MANAGER ? process.env.CONTAINER_MANAGER : "docker";
 let cs = null;
 
-if (!["docker", "finch"].includes(containerManager)) {
+if (!["docker", "finch", "podman"].includes(containerManager)) {
   throw new Error(`Container manager not recognized: ${containerManager}`)
 }
 
-if (containerManager == 'cli' || containerManager == 'finch') {
+if (containerManager == 'cli' || containerManager == 'finch' || containerManager == 'podman') {
   console.log(`Using the 'cli' container service. CLI command: ${process.env.CLI_CMD}`);
   cs = await import('./ContainerServiceCli.js');
 } else if (containerManager == 'docker') {

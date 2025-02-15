@@ -42,9 +42,32 @@ const getPortsFromString = (rawString) => {
   return rawString.substring(start+1, end);
 }
 
-const getAllContainers = async () => {
-  try {
-    const resp = await runCliCommandAndGetOutput(`${cliCmd} ps --format json --no-trunc`, 'json');
+const parsePsContent = (psResponse) => {
+  // Of course podman has a different output format than docker and the other knock-offs
+  if (containerManager == 'podman') {
+    // Key all containers by their name
+    const containers = {};
+    for (const entry of resp) {
+      const key = entry.Names[0];
+      const labels = entry.Labels;
+      if (labels && labels.localmotive && labels.localmotive == containerLabelText) {
+        const externalPort = entry.Ports[0].host_port;
+        const cur = {
+          created: entry.CreatedAt,
+          id: entry.Id,
+          image: entry.Image,
+          name: key,
+          mounts: entry.Mounts,
+          ports: entry.Ports[0].host_port,
+          state: entry.State,
+          externalPort: externalPort,
+          labels: labels
+        };
+        containers[key] = cur;
+      }
+    };
+    return containers;
+  } else {
     // Key all containers by their name
     const containers = {};
     for (const entry of resp) {
@@ -66,6 +89,14 @@ const getAllContainers = async () => {
         containers[key] = cur;
       }
     };
+    return containers;
+  }
+}
+
+const getAllContainers = async () => {
+  try {
+    const resp = await runCliCommandAndGetOutput(`${cliCmd} ps --format json --no-trunc`, 'json');
+    const containers = parsePsContent(resp);
     console.log(`Number of containers running: ${Object.keys(containers).length}`)
     return containers;
   } catch (exc) {
