@@ -1,5 +1,5 @@
 import { proxyLambdaRequest, proxyPassthruRequest } from "../services/ProxyService.js";
-import * as containerService from "../services/ContainerService.js"
+import { getContainerManager } from "../services/ContainerService.js"
 import { extractZip } from '../services/ZipService.js';
 
 const handlePassthruRequest = async (req, res, targetEndpoint) => {
@@ -28,7 +28,7 @@ const handleManagedLambdaRequest = async (req, res, targetEndpoint, lambdaPayloa
   try {
     // Check to see if the container is already running
     const containerName = targetEndpoint.function.name;
-    let runningContainer = await containerService.getContainer(containerName);
+    let runningContainer = await getContainerManager().getContainer(containerName);
 
     if (!runningContainer) {
       runningContainer = await bringUpContainer(containerName, targetEndpoint, settings);
@@ -65,18 +65,18 @@ const bringUpContainer = async (containerName, targetEndpoint, settings) => {
     allEnvVars['AWS_SESSION_TOKEN'] = process.env.AWS_SESSION_TOKEN;
     allEnvVars['AWS_REGION'] = process.env.AWS_REGION;
   }
-
-  const containerConfig = containerService.getContainerConfig(
+  const cm = getContainerManager();
+  const containerConfig = cm.getContainerConfig(
     containerName,
     targetEndpoint.function.imageName ? targetEndpoint.function.imageName : settings.baseImage,
     targetEndpoint.function.entryPoint,
     fileMappingSource,
-    await containerService.getAvailablePort(),
+    await cm.getAvailablePort(),
     targetEndpoint.function.internalPort,
     allEnvVars);
 
-  await containerService.launchContainer(containerName, containerConfig);
-  return await containerService.getContainer(containerName);
+  await cm.launchContainer(containerName, containerConfig);
+  return await cm.getContainer(containerName);
 }
 
 export { handlePassthruRequest, handleUnmanagedLambdaRequest, handleManagedLambdaRequest }

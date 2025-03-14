@@ -1,7 +1,7 @@
 import 'dotenv/config'
 import { rm, mkdir } from 'fs/promises';
 
-import { init, destroyAllContainers } from './services/ContainerService.js';
+import { initializeCS, getContainerManager } from './services/ContainerService.js';
 import { loadConfig } from './services/ConfigurationService.js';
 
 const configFile = process.env.CONFIG_FILE;
@@ -12,8 +12,10 @@ if (!configFile) {
 const config = await loadConfig(configFile)
 
 try {
-    await init(config.settings);
-    await destroyAllContainers();
+    await initializeCS();
+    const cm = getContainerManager();
+    await cm.init(config.settings);
+    await cm.destroyAllContainers();
 
     // Clean up any previously unzipped zip files
     const zipRootDir = config.settings.zipTargetDir;

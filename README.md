@@ -60,6 +60,9 @@ compatibility mode which allows other container management clones to work as wel
 
 As of this writing, Localmotive has been tested with:
 - Docker Desktop
+- nerdctl
+- Rancher Desktop
+- podman
 - Finch
 
 A REST client, such as Bruno, is also recommended, but not required. 
@@ -72,8 +75,7 @@ Lambda functions. To get started, please see the
 [README](https://github.com/tim1e9/localmotive/tree/main/_docs/samples)
 file in the `/_docs/samples` subdirectory.
 
-As of now, Localmotive supports both JavaScript and TypeScript projects. It is the
-intent of the author to also include Python support in the near future.
+As of now, Localmotive supports Python, JavaScript and TypeScript projects.
 
 ## Additional Information
 Localmotive is currently in pre-alpha. No support or warranty is provided. However, suggestions

@@ -5,13 +5,24 @@ import { handlePassthruRequest,
          handleManagedLambdaRequest,
          handleUnmanagedLambdaRequest } from './handlers/Handlers.js';
 import { handleAdminRequest } from './services/AdminService.js';
-import * as containerService from './services/ContainerService.js';
+import { initializeCS }  from './services/ContainerService.js';
 import { convertHttpRequestToLambdaPayload } from './services/TransformationService.js';
 import { loadConfig, getFunctionDetailsFromPathAndMethod } from './services/ConfigurationService.js';
+
+import { verifyEnvironment } from './services/GetStartedService.js';
 
 const app = express();
 app.use(express.json());
 
+try {
+  await verifyEnvironment();
+  await initializeCS();
+} catch(exc) {
+  console.log(`Error running Localmotive: ${exc.message}. Please update the configuration before proceeding.`);
+  process.exit(0);
+}
+
+// It seems like a 2nd check on the config, but the first step may have simply created the config
 const configFile = process.env.CONFIG_FILE;
 if (!configFile) {
   throw new Error(`Missing configuration file: (Set CONFIG_FILE in the environment)`);
@@ -22,7 +33,6 @@ const config = await loadConfig(configFile)
 const ADMIN_PATH = config?.settings?.adminPathPrefix ? config.settings.adminPathPrefix : '/_admin';
 
 initProxyLogging();
-await containerService.init(config.settings);
 
 // Remember: This is development. The following should scare you if you don't know what you're doing.
 app.use((req, res, next) => {
@@ -88,5 +98,5 @@ app.all('/*', async (req, res) => {
 const nodejs_port = process.env.NODEJS_PORT ? process.env.NODEJS_PORT : 3000;
 
 app.listen(nodejs_port, () =>
-  console.log(`Example app listening at http://localhost:${nodejs_port}`)
+  console.log(`Localmotive is listening at http://localhost:${nodejs_port}`)
 );

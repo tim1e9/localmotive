@@ -2,7 +2,7 @@ import axios from 'axios';
 
 let containerLabelText = "localknowledgerequired";  // Used to identify running containers owned by Localmotive
 
-const DOCKER_SOCKET = process.env.DOCKER_SOCKET ? process.env.DOCKER_SOCKET : '/var/run/docker.sock';
+const DOCKER_SOCKET = '/var/run/docker.sock';
 const DOCKER_API_VERSION = "v1.41";
 
 const dockerDaemon = axios.create({
