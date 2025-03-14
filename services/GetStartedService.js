@@ -44,6 +44,7 @@ const prompt = async (text, validValues = [], mode = 0) => {
   return formattedReply;
 };
 
+// Verify that a container manager (such as Docker) exists
 const verifyContainerManager = async (configFileLocation) => {
   let cm = process.env.CONTAINER_MANAGER;
   let cliCmd = process.env.CLI_CMD;
@@ -95,6 +96,7 @@ the cli command to use. For example, the CLI command for finch is: 'finch'.`);
   return true;
 }
 
+// A config file contains 1 or more endpoints. Allow the user to specify the details here
 const gatherEndpoint = async () => {
   // The basics of an endpoint before it's customized:
   const endpoint = {
@@ -148,6 +150,7 @@ const gatherEndpoint = async () => {
   return endpoint;
 }
 
+// Every config file has a global 'settings' section. Create this section here...
 const gatherConfigSettings = async () => {
   const settings = {
     "adminPathPrefix": "/_admin",
@@ -185,6 +188,7 @@ const gatherConfigSettings = async () => {
   return settings;
 }
 
+// Verify that a configuration file exists. If not, offer to create one
 const verifyConfig = async () => {
   const configFile = process.env.CONFIG_FILE;
   if (configFile) {
@@ -234,6 +238,7 @@ const verifyConfig = async () => {
   return targetLocation;
 }
 
+// Main entry point to verify that the envrionment has been properly configured
 const verifyEnvironment = async () => {
   try {
     const configFile = await verifyConfig();
