@@ -8,13 +8,37 @@ const publishProxyEvent = (evt) => {
   proxyNotifier.emit(PROXY_TOPIC_NAME, evt)
 }
 
+const parseLambdaResponse = async (lambdaResponse) => {
+  let lambdaContent = "";
+  try {
+    lambdaContent = await lambdaResponse.text();
+    // This gets odd - so odd, that it requires a special processing block
+    const jsonContent = JSON.parse(lambdaContent);
+    const statusCode = jsonContent.statusCode;
+    if (!jsonContent || !statusCode) {
+      throw new Error(`Bad response from the Lambda function`)
+    }
+    const bodyContent = jsonContent.body;
+    return {
+      statusCode: statusCode,
+      bodyContent: bodyContent
+    };
+  } catch(exc) {
+    const msg = `Exception while parsing the lambda response: ${exc.message}`;
+    console.error(msg)
+    console.log(`The full message:  ${lambdaContent}`);
+    return {
+      statusCode: 500,
+      bodyContent: msg
+    };
+  }
+}
 // Handle the different types of proxies: Lambda and straight passthru
 
 const proxyLambdaRequest = async (targetEndpoint, payload) => {
   const uniqueID = randomUUID();
   let url = '';
   let parms = {};
-  let bodyContent = null;
   try {
     const externalPort = targetEndpoint.function.externalPort;
     const host = targetEndpoint.function.host;
@@ -31,11 +55,7 @@ const proxyLambdaRequest = async (targetEndpoint, payload) => {
       transactionId: uniqueID
     });
     const lambdaResponse = await fetch(url, parms);
-    const lambdaContent = await lambdaResponse.text();
-    // This gets odd
-    const jsonContent = JSON.parse(lambdaContent);
-    const statusCode = jsonContent.statusCode;
-    bodyContent = jsonContent.body;
+    const {statusCode, bodyContent} = await parseLambdaResponse(lambdaResponse);
 
     publishProxyEvent({
       url,
